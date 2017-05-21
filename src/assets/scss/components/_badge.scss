@@ -1,0 +1,18 @@
+@import '../base/_mixin.scss';				
+@import '../base/_variable.scss';			// 全局变量
+
+// 数量徽标
+.badge{
+	$w:rem(32px);
+	min-width: $w;
+	line-height: $w;
+	border-radius: $w/2;
+	padding:0 rem(10px);
+	font-size:fsrem(18px);	
+	text-align: center;
+	color:#fff;
+
+	box-sizing:border-box;
+	display: inline-block;
+}
+

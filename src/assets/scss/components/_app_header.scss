@@ -1,0 +1,53 @@
+@import '../../scss/base/_mixin.scss';
+@import '../../scss/base/_variable.scss';
+
+// app头部
+.app-header{
+	$h:rem(100px);
+	line-height:$h;
+	height:$h;
+	background-color: #fff;
+	border-bottom:rem(1px) solid $bd-gray;
+	position: relative;
+	
+	$pd: rem(25px);
+
+	.header-back,
+	.header-util{
+		padding:0 $pd;
+		position: absolute;
+		top:0;
+		bottom:0;
+
+		@include active(); 
+		@include ellipsis;
+
+		.text,
+		.icon{
+			vertical-align: middle; 
+		}
+		.icon{
+			font-size: fsrem(36px);
+		}
+	}
+	.header-back{
+		left:0;
+		.link{
+			display: block;
+			padding:0 $pd;
+			margin:0 (-$pd);
+		}
+	}
+	.header-title{
+		font-size: fsrem(36px);
+		text-align: center;
+		padding:0 rem(200px);
+		flex:1;
+		@include ellipsis;
+	}
+	.header-util{
+		right:0;
+		text-align: right;
+	}
+
+}

@@ -1,0 +1,114 @@
+@import '_mixin.scss';
+@import '_variable.scss';
+
+.fl{ float:left;}
+.fr{ float:right;}
+.tar{ text-align:right;}
+.tal{ text-align:left;}
+.tac{ text-align:center;}
+.db{ display:block;}
+.dn{ display:none !important;}
+.vas{vertical-align:super;}
+.vat{vertical-align:top;}
+.vam{vertical-align:middle;}
+
+.clear{ clear:both; }
+.mauto{ margin:0 auto; }
+.hide{ display: none; }
+
+// 文字
+.p{ line-height: 1; display: block; }
+
+// 文字大小
+.fs20{ font-size:fsrem(20px); }
+.fs28{ font-size:fsrem(28px); }
+.fs32{ font-size:fsrem(32px); }
+.fs36{ font-size:fsrem(36px); }
+
+// 边框
+.bt-gray{border-top:rem(1px) solid $bd-gray;}
+.bb-gray{border-bottom:rem(1px) solid $bd-gray;}
+
+// 文字颜色
+.text-light{ color: $light; }
+.text-dark{ color: $dark; }
+
+.text-stable{ color:$stable; }
+.text-stable-light{ color:$stable-light; }
+
+.text-primary{ color: $primary; }
+.text-primary-light{ color: $primary-light; }
+
+.text-assertive{ color: $assertive; }
+.text-assertive{ color: $assertive-dark; }
+
+.text-energized-light{ color: $energized-light; }
+.text-energized{ color: $energized; }
+.text-energized-dark{ color: $energized-dark; }
+
+.text-kelly{ color: $kelly; }
+.text-romance{ color: $romance; }
+
+// 背景颜色
+.bg-light{ background-color: $light; }
+.bg-dark{ background-color: $dark; }
+
+.bg-stable{ background-color:$stable; }
+.bg-stable-light{ background-color:$stable-light; }
+
+.bg-primary{ background-color: $primary; }
+.bg-primary-light{ background-color: $primary-light; }
+
+.bg-assertive{ background-color: $assertive; }
+.bg-assertive-dark{ background-color: $assertive-dark; }
+
+.bg-energized-light{ background-color: $energized-light; }
+.bg-energized{ background-color: $energized; }
+.bg-energized-dark{ background-color: $energized-dark; }
+
+.bg-kelly{ background-color: $kelly; }
+.bg-romance{ background-color: $romance; }
+
+// 字体大小
+@for $i from 20 through 60{
+	@if($i % 2 == 0){
+		.fs#{$i}{ font-size: fsrem($i*1px);}
+	}
+}
+
+/******公用头部fixed在顶部时，填充页面顶部空间，防止被遮挡*******/
+.pt88{
+	padding-top:rem(88px);
+}
+/******** 边距简写 ********/
+//注意，下面的.m等四个属性的边距简写放置在.mt/.mr ...等两个属性之上，方便css样式优先级覆盖
+//同理，下面的.mtb/.mlf等两个属性的要放置在.mt/.mr ...等单个属性之上，方便css样式优先级覆盖
+@for $i from 5 through 60{
+	@if($i % 5 == 0){
+		.m#{$i}{ margin: rem($i*1px);}
+		.p#{$i}{ padding: rem($i*1px);}
+	}
+}
+@for $i from 5 through 60{
+	@if($i % 5 == 0){
+		.mtb#{$i}{ margin: rem($i*1px) 0 rem($i*1px) 0;}
+		.mlr#{$i}{ margin: 0 rem($i*1px) 0 rem($i*1px);}
+
+		.ptb#{$i}{ padding: rem($i*1px) 0 rem($i*1px) 0;}
+		.plr#{$i}{ padding: 0 rem($i*1px) 0 rem($i*1px);}
+	}
+}
+@for $i from 5 through 60{
+	@if($i % 5 == 0){
+		.mt#{$i}{ margin-top: rem($i*1px);}
+		.mr#{$i}{ margin-right: rem($i*1px);}
+		.mb#{$i}{ margin-bottom: rem($i*1px);}
+		.ml#{$i}{ margin-left: rem($i*1px);}
+
+		.pt#{$i}{ padding-top: rem($i*1px);}
+		.pr#{$i}{ padding-right: rem($i*1px);}
+		.pb#{$i}{ padding-bottom: rem($i*1px);}
+		.pl#{$i}{ padding-left: rem($i*1px);}
+
+	} 
+}

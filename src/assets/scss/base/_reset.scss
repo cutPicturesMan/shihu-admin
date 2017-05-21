@@ -1,0 +1,73 @@
+html{
+	height:100%;		/*为了让页面高度不满一屏时，body可以布满全屏*/
+	font-family: "Helvetica Neue", Helvetica, STHeiTi, Arial, sans-serif;
+	/*  
+		body节点的font-size属性继承于html节点
+		html节点font-size:16px，故body节点默认font-size也是16px
+		1）当flexible.js为html节点加上font-size，
+			但是还未给body节点加上font-size时，
+			body节点字体继承html节点的字体大小，
+			会出现全部字体变大的情况，故要根据html上的dpr来设置body的字体大小
+	*/
+	&[data-dpr="1"]{
+		body{
+			font-size:12px;		
+		}
+	}
+	&[data-dpr="1.5"]{
+		body{
+			font-size:18px;		
+		}
+	}
+	&[data-dpr="2"]{
+		body{
+			font-size:24px;		
+		}
+	}
+	&[data-dpr="3"]{
+		body{
+			font-size:36px;		
+		}
+	}
+}
+body{
+	min-height:100%;	/*为了让页面高度不满一屏时，body可以布满全屏*/
+	-webkit-overflow-scrolling: touch;		/*开启惯性滚动，非标准属性*/
+	overflow-x:hidden;
+	font-size:12px;
+}
+body,dl,dd,p,h1,h2,h3,h4,h5,h6,
+figure{
+	margin:0;
+}
+p{
+	line-height: 1;
+}
+ul,ol{
+	margin:0;
+	padding:0;
+	list-style-type: none;
+}
+a{
+	text-decoration:none;
+	color:inherit;
+}
+img{
+	max-width:100%; 
+	border:0; 
+}
+table{ border-collapse: collapse; border-spacing: 0; }
+input, textarea, keygen, button {
+	font-size:fsrem(24px);
+	padding:0;
+	border:0;
+	-webkit-appearance:none;
+}
+
+
+button,
+html [type="button"], /* 1 */
+[type="reset"],
+[type="submit"] {
+  -webkit-appearance: none; /* 2 */
+}

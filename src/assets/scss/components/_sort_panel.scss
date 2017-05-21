@@ -1,0 +1,73 @@
+// 排序字段面板
+.sort-panel{
+	background-color: #fff;
+	border-bottom:rem(1px) solid $bd-gray;
+	position: relative;
+
+	display: flex;
+
+	// 选中的子元素出现下划线
+	&:after{
+		content:' ';
+		$w:rem(175px);
+		width:$w;
+		height:rem(5px);
+		background-color: $energized-light;
+		display: inline-block;
+		position: absolute;
+		bottom:rem(-1px);
+		left:25%;
+		margin-left:-$w/2;
+		transition:all .5s;
+	}
+
+	// 子元素之间的分割线
+	&.cutting-line{
+		.sort-item{
+			position: relative;
+			&:after{
+				$dist:rem(20px);
+
+				content:' ';
+				width:rem(1px);
+
+				position:absolute;
+				top:$dist;
+				right:0;
+				bottom:$dist;
+
+				background-color: $bd-gray;
+				display: block;
+			};
+
+			&:last-child{
+				&:after{
+					display: none;
+				}
+			}
+		}
+	}
+
+	.sort-item{
+		flex-grow: 1;
+		flex-basis: 0;
+		padding:rem(20px);
+		color:#666;
+		font-size:fsrem(28px);
+		text-align: center;
+
+		@include active();
+		&.active{
+			color:#333;
+			font-weight:bold;
+		}
+
+		.icon{
+			color:#999;
+			transform:rotate(180deg);
+			transform-origin: 50% 50%;
+			transition:all .7s;
+			display: inline-block;
+		}
+	}
+}

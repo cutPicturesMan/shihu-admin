@@ -1,0 +1,78 @@
+$baseFontSize:75px;		/*基准尺寸，设计稿psd的宽度/10，本psd中宽度为750px*/
+
+//针对于非字体的rem转换 
+@function rem($px) {
+	// @return $px/2 ;
+	@return $px / $baseFontSize * 1rem;
+}
+//针对于字体的rem转换，防止安卓机下rem字体显示错误时可以方便的变回px单位
+@function fsrem($px) {
+	// @return $px/2 ;
+	@return $px / $baseFontSize * 1rem;
+}
+
+// 背景图片
+@function bgImg($url){
+	@return url($url + '@2x.png');
+	@media (max-device-pixel-ratio:3), (-webkit-max-device-pixel-ratio:3){
+		@return url($url + '@3x.png');
+	}
+}
+
+/*点击态的背景*/
+@mixin active(){
+	&:active{
+		background-color: rgba(125, 125, 125, .1) !important;
+	}
+}
+
+/*字体超出变省略号*/
+@mixin ellipsis(){
+	white-space: nowrap;
+	overflow:hidden;
+	text-overflow:ellipsis;
+}
+
+/*定位*/
+@mixin pos($type:abs, $top:auto, $right:auto, $bottom:auto, $left:auto){
+	@if $type==rel{
+		position:relative;
+	}
+	@if $type==abs{
+		position:absolute; 
+	}
+	@if $type==fix{
+		position:fixed;
+	}
+	top:$top;
+	right:$right;
+	bottom:$bottom;
+	left:$left;
+}
+
+/* 实心三角形
+ * 参数有4个
+ * $tb : 上下边框宽
+ * $lr : 左右边框宽
+ * $direction : 三角形指向(top, right, bottom, left)
+ * $color : 三角形颜色
+ */
+@mixin rac($tb, $lr, $direction, $color ){
+	width:0;
+	height:0;
+	border-width:$tb $lr;
+	border-style:solid;
+
+	@if $direction == 'top'{
+		border-color:transparent transparent $color transparent;
+	}
+	@if $direction == 'right'{
+		border-color:transparent transparent transparent $color;
+	}
+	@if $direction == 'bottom'{
+		border-color:$color transparent transparent transparent;
+	}
+	@if $direction == 'left'{
+		border-color:transparent $color transparent transparent;
+	}
+}

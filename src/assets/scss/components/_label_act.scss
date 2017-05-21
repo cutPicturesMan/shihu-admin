@@ -1,0 +1,87 @@
+@import '../base/_mixin.scss';				
+@import '../base/_variable.scss';			// 全局变量
+
+.label-act{
+	display: flex;
+	align-items: center;
+	height:rem(88px);
+	padding:0 rem(25px);
+ 
+	background-color: #fff;
+	position: relative; 
+	 
+	&.underline{
+		&:after{
+			content:' ';
+			height:rem(1px);
+			background-color: $bd-gray;
+			display: block;
+
+			position:absolute;
+			left:rem(95px);
+			bottom:0;
+			right:0;
+		}
+		&.underline-full{
+			&:after{
+				left:0;
+			}
+		}
+	}
+	// 订单页用的大尺寸
+	&.large{
+		height:auto;
+
+		.label-act-link{
+			align-items: flex-start;
+			padding-top:rem(20px);
+			padding-bottom:rem(20px);
+		}
+		.act-icon{
+			.icon{
+				$w:rem(56px); 
+				width:$w;
+				height:$w;
+				line-height: $w;
+			}
+		}
+	}
+	.label-act-link{
+		height:100%;
+		display: flex;
+		flex-grow: 1;
+		flex-basis:0;
+		align-items: center;
+		margin:0 rem(-25px);
+		padding:0 rem(25px);
+
+		@include active();
+	}
+
+	.act-icon{
+		$w:rem(60px);
+		width:$w;
+		color:#fff;
+		font-size:fsrem(30px);
+		.icon{
+			$w:rem(46px);
+			width:$w;
+			height:$w;
+			line-height: $w;
+			text-align: center;
+			border-radius: 50%;
+
+			display: block;
+		}
+	}
+	.act-title{
+		flex-grow:1;
+		flex-basis:0;
+	}
+	.act-sub{
+		color:#999;
+	}
+	.act-arrow{
+		color:#999;
+	}
+}

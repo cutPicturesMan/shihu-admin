@@ -1,0 +1,25 @@
+@import 'components/_app_header.scss';		// app头部
+@import 'components/_badge.scss';			// 徽标
+@import 'components/_btn.scss';				// 按钮
+@import 'components/_grid.scss';			// 简单的多列布局
+@import 'components/_label_act.scss';		// 标题链接
+@import 'components/_sort_panel.scss';		// 排序字段面板
+ 
+@import 'components/_good_item.scss';		// 每个商品条目
+
+body{ 
+	color:#333;
+	background-color: #f5f5f5;
+}
+
+// 菜品新价格
+.discount-price{
+	font-size: fsrem(28px);
+}
+// 菜品旧价格
+.old-price{
+	color: #93999f;
+	font-size: fsrem(20px);
+}
+
+
