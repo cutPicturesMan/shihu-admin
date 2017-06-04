@@ -3,11 +3,12 @@
     <header class="app-header">
       头部 用户名 注册 | 登录
     </header>
-    <div class="layout" :class="{'layout-hide-text': spanLeft < 5}">
+    <div class="layout" :class="{'layout-hide-text': layoutHide}">
       <Row type="flex">
-          <i-col :span="spanLeft" class="layout-menu-left">
+          <!-- 左侧导航 -->
+          <i-col class="layout-menu-left">
             <Menu active-name="1" theme="dark" width="auto" accordion>
-              <div class="layout-left-scale"> 
+              <div class="layout-left-scale">
                 <i-button type="text" @click="toggleClick">
                     <Icon type="navicon" size="32"></Icon>
                 </i-button>
@@ -15,16 +16,27 @@
               <Submenu name="1">
                 <template slot="title">
                     <Icon type="ios-home" :size="iconSize"></Icon>
-                    <span class="submenu-title">商家中心</span>
+                    <span class="submenu-title">店铺中心</span>
                 </template>
                 <Menu-item name="1-1">
-                  <Icon type="ios-list-outline"></Icon>
-                  <span class="submenu-subtitle">商家列表</span>
+                  <router-link to="/merchant/category" class="router-link">
+                    <Icon type="grid"></Icon>
+                    <span class="submenu-subtitle">店铺分类</span>
+                  </router-link>
                 </Menu-item>
                 <Menu-item name="1-2">
-                  <Icon type="plus-circled"></Icon>
-                  <span class="submenu-subtitle">新增商家</span>
+                  <router-link to="/merchant/list" class="router-link">
+                    <Icon type="android-list"></Icon>
+                    <span class="submenu-subtitle">店铺列表</span>
+                  </router-link>
                 </Menu-item>
+                <Menu-item name="1-3">
+                  <router-link to="/merchant/add" class="router-link">
+                    <Icon type="plus-circled"></Icon>
+                    <span class="submenu-subtitle">新增店铺</span>
+                  </router-link>
+                </Menu-item>
+
               </Submenu>
               <Submenu name="2">
                 <template slot="title">
@@ -32,12 +44,16 @@
                   <span class="submenu-title">菜品中心</span>
                 </template>
                 <Menu-item name="2-1">
-                  <Icon type="ios-list-outline"></Icon>
-                  <span class="submenu-subtitle">菜品列表</span>
+                  <router-link to="/analyze/merchant" class="router-link">
+                    <Icon type="android-list"></Icon>
+                    <span class="submenu-subtitle">菜品列表</span>
+                  </router-link>
                 </Menu-item>
                 <Menu-item name="2-2">
-                  <Icon type="ios-navigate"></Icon>
-                  <span class="submenu-subtitle">新增菜品</span>
+                  <router-link to="/analyze/merchant" class="router-link">
+                    <Icon type="ios-navigate"></Icon>
+                    <span class="submenu-subtitle">新增菜品</span>
+                  </router-link>
                 </Menu-item>
               </Submenu>
               <Submenu name="3">
@@ -46,12 +62,16 @@
                   <span class="submenu-title">订单中心</span>
                 </template>
                 <Menu-item name="3-1">
-                  <Icon type="ios-list-outline"></Icon>
-                  <span class="submenu-subtitle">订单列表</span>
+                  <router-link to="/analyze/merchant" class="router-link">
+                    <Icon type="ios-list-outline"></Icon>
+                    <span class="submenu-subtitle">订单列表</span>
+                  </router-link>
                 </Menu-item>
                 <Menu-item name="3-2">
-                  <Icon type="chatbubble-working"></Icon>
-                  <span class="submenu-subtitle">订单评论</span>
+                  <router-link to="/analyze/merchant" class="router-link">
+                    <Icon type="chatbubble-working"></Icon>
+                    <span class="submenu-subtitle">订单评论</span>
+                  </router-link>
                 </Menu-item>
               </Submenu>
               <Submenu name="4">
@@ -66,7 +86,12 @@
                 </Menu-item>
                 <Menu-item name="4-2">
                   <router-link to="/analyze/merchant" class="router-link">
-                    <Icon type="eye"></Icon><span class="submenu-subtitle">商家分析</span>
+                    <Icon type="eye"></Icon><span class="submenu-subtitle">店铺分析</span>
+                  </router-link>
+                </Menu-item>
+                <Menu-item name="4-3">
+                  <router-link to="/analyze" class="router-link">
+                    <Icon type="eye"></Icon><span class="submenu-subtitle">总览</span>
                   </router-link>
                 </Menu-item>
               </Submenu>
@@ -76,57 +101,66 @@
                   <span class="submenu-title">权限管理</span>
                 </template>
                 <Menu-item name="5-1">
-                  <Icon type="ios-people"></Icon>
-                  <span class="submenu-subtitle">管理员列表</span>
+                  <router-link to="/analyze/merchant" class="router-link">
+                    <Icon type="ios-people"></Icon>
+                    <span class="submenu-subtitle">管理员列表</span>
+                  </router-link>
                 </Menu-item>
                 <Menu-item name="5-2">
-                  <Icon type="ios-list-outline"></Icon>
-                  <span class="submenu-subtitle">权限列表</span>
+                  <router-link to="/analyze/merchant" class="router-link">
+                    <Icon type="ios-list-outline"></Icon>
+                    <span class="submenu-subtitle">权限列表</span>
+                  </router-link>
                 </Menu-item>
               </Submenu>
             </Menu>
           </i-col>
-          <i-col :span="spanRight">
+          <!-- 右侧主体 -->
+          <i-col class="layout-menu-right">
+            <!-- 面包屑导航 -->
+            <div class="layout-header">
+              <div class="layout-breadcrumb">
+                <BreadCrumb></BreadCrumb>
+              </div>
+            </div>
+            <!-- 主体内容 -->
             <router-view class="layout-content-main"></router-view>
+            <!-- 底部 -->
             <div class="layout-copy">
                 2017 &copy; by zhangzhen
             </div>
           </i-col>
       </Row>
     </div>
-    <img src="./assets/logo.png">
-
-    <router-view class="app-main"></router-view>
   </div>
 </template>
 
-<script>
+<script type="text/ecmascript-6">
+// 面包屑导航
+import BreadCrumb from '@/components/BreadCrumb';
+
 export default {
   data () {
     return {
-      spanLeft: 5,
-      spanRight: 19
+      layoutHide: false
     };
   },
   computed: {
     iconSize () {
-      return this.spanLeft === 5 ? 14 : 24;
+      return this.layoutHide ? 24 : 14;
     }
+  },
+  components: {
+    BreadCrumb
   },
   methods: {
     toggleClick () {
-      if (this.spanLeft === 5) {
-        this.spanLeft = 2;
-        this.spanRight = 22;
-      } else {
-        this.spanLeft = 5;
-        this.spanRight = 19;
-      }
+      this.layoutHide = !this.layoutHide;
     }
   }
 };
 </script>
-<style lang="scss">
+<style lang="scss" rel="stylesheet/scss" type="text/scss">
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -170,7 +204,7 @@ $sidebar-width: 200px;
 }
 .layout-content{
   min-height: 200px;
-  margin: 15px;
+  padding: 15px;
   overflow: hidden;
   background: #fff;
   border-radius: 4px;
@@ -186,7 +220,7 @@ $sidebar-width: 200px;
 .layout-header{
   height: 60px;
   background: #fff;
-  box-shadow: 0 1px 1px rgba(0,0,0,.1);
+  border-bottom: 1px solid rgba(0,0,0,.1);
 
   display: flex;
   align-items: center;
@@ -226,7 +260,7 @@ $sidebar-width: 200px;
       .ivu-icon{
         margin-right:0;
       }
-    }  
+    }
   }
   .ivu-menu-submenu-title span>i, .ivu-menu-submenu-title>i{
     margin-right:0;
@@ -235,7 +269,7 @@ $sidebar-width: 200px;
 .ivu-menu-vertical .ivu-menu-item, .ivu-menu-vertical .ivu-menu-submenu-title{
   padding:0;
   padding-left: 0;
-  .router-link{    
+  .router-link{
     padding: 14px 24px;
     padding-left: 43px;
     display: block;
@@ -245,16 +279,60 @@ $sidebar-width: 200px;
   }
 }
 
-.layout-menu-left{
-  a{
-    color:inherit;
-    &:hover{
-      color:#fff;
+.layout {
+  // 主体
+  .ivu-row-flex {
+    position: relative;
+    $w: 200px;
+    .layout-menu-left,
+    .layout-menu-right {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      transition: all .2s ease-in-out;
+    }
+    // 左面板
+    .layout-menu-left {
+      width: $w;
+      left: 0;
+      overflow: hidden;
+      a {
+        color: inherit;
+        &:hover {
+          color: #fff;
+        }
+      }
+    }
+    // 右面板
+    .layout-menu-right {
+      right: 0;
+      left: $w;
+      overflow:scroll;
+    }
+    .ivu-menu-vertical .ivu-menu-submenu .ivu-menu-item {
+      padding: 0;
+      padding-left: 0;
     }
   }
-  .ivu-menu-vertical .ivu-menu-submenu .ivu-menu-item{
-    padding:0;
-    padding-left: 0;
+  // 左面板最小化
+  &.layout-hide-text {
+    .ivu-row-flex{
+      $w: 80px;
+      .layout-menu-left {
+        width: $w;
+      }
+      .layout-menu-right {
+        left: $w;
+      }
+    }
+  }
+  // 分页右对齐
+  .page-container{
+    overflow: hidden;
+    .page-panel{
+      float: right;
+    }
   }
 }
+
 </style>

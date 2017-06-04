@@ -30,24 +30,24 @@
 .bb-gray{border-bottom:rem(1px) solid $bd-gray;}
 
 // 文字颜色
-.text-light{ color: $light; }
-.text-dark{ color: $dark; }
-
-.text-stable{ color:$stable; }
-.text-stable-light{ color:$stable-light; }
-
-.text-primary{ color: $primary; }
-.text-primary-light{ color: $primary-light; }
-
-.text-assertive{ color: $assertive; }
-.text-assertive{ color: $assertive-dark; }
-
-.text-energized-light{ color: $energized-light; }
-.text-energized{ color: $energized; }
-.text-energized-dark{ color: $energized-dark; }
-
-.text-kelly{ color: $kelly; }
-.text-romance{ color: $romance; }
+.text-info{
+  color: #2d8cf0;
+}
+.text-success{
+  color: #19be6b;
+}
+.text-warning{
+  color: #ff9900;
+}
+.text-error{
+ color: #ed3f14;
+}
+.text-stable{
+  color: #aaa;
+}
+.text-disabled{
+  color: #bbbec4;
+}
 
 // 背景颜色
 .bg-light{ background-color: $light; }
@@ -110,5 +110,5 @@
 		.pb#{$i}{ padding-bottom: rem($i*1px);}
 		.pl#{$i}{ padding-left: rem($i*1px);}
 
-	} 
+	}
 }
