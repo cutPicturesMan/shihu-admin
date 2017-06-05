@@ -27,7 +27,9 @@
         </Row>
       </Form-item>
 
+      <!--门店电话-->
       <MerchantTells :form="form"></MerchantTells>
+      <!--营业时间-->
       <MerchantOpeningTimes :form="form"></MerchantOpeningTimes>
 
       <Form-item label="店铺简介">
@@ -36,7 +38,31 @@
           <Input v-model="form.intro" type="textarea" :autosize="{minRows: 5,maxRows: 8}"
                  placeholder="请输入大概的介绍，最多200字"></Input>
           </Col>
+        </Row>
+      </Form-item>
+      <Form-item label="店铺logo">
+        <Row>
+          <Col span="5">
+            <Upload></Upload>
+          </Col>
           <Col span="15" offset="1">
+            <span class="text-stable">
+              <Icon type="information-circled"></Icon>
+              必须上传一张
+            </span>
+          </Col>
+        </Row>
+      </Form-item>
+      <Form-item label="门店图片">
+        <Row>
+          <Col span="5">
+            <Upload></Upload>
+          </Col>
+          <Col span="15" offset="1">
+            <span class="text-stable">
+              <Icon type="information-circled"></Icon>
+              最多上传8张
+            </span>
           </Col>
         </Row>
       </Form-item>
@@ -51,6 +77,7 @@
 <script type="text/ecmascript-6">
   import MerchantOpeningTimes from '@/components/MerchantOpeningTimes/OpeningTimes';
   import MerchantTells from '@/components/MerchantTells/MerchantTells';
+  import Upload from '@/components/Upload';
 
   export default {
     name: 'list',
@@ -61,6 +88,8 @@
           name: '',
           category: '',
           intro: '',
+          logo: '',
+          imgs: [],
           tells: [{
             tell: ''
           }],
@@ -119,7 +148,9 @@
       // 门店电话
       MerchantTells,
       // 营业时间组件
-      MerchantOpeningTimes
+      MerchantOpeningTimes,
+      // 上传组件
+      Upload
     }
   };
 </script>

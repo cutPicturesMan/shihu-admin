@@ -1,7 +1,6 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 import Hello from '@/components/Hello';
-import List from '@/components/List';
 
 // 商家中心
 import Merchant from '@/pages/Merchant/Merchant';
@@ -28,7 +27,7 @@ export default new Router({
     {
       path: '/list',
       name: 'list',
-      component: List
+      component: MerchantList
     },
     // 商家中心
     {

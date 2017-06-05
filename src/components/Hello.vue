@@ -1,6 +1,5 @@
 <template>
   <div class="hello">
-    <test @click.native="handle"></test>
     <h1>{{ msg }}</h1>
     <h2>Essential Links</h2>
     <ul>
@@ -22,24 +21,20 @@
 </template>
 
 <script>
-import Test from './Test.vue';
-
-export default {
-  name: 'hello',
-  data () {
-    return {
-      msg: 'Welcome to Your Vue.js App'
-    };
-  },
-  components: {
-    test: Test
-  },
-  methods: {
-    handle () {
-      console.log('aaa');
+  export default {
+    name: 'hello',
+    data () {
+      return {
+        msg: 'Welcome to Your Vue.js App'
+      };
+    },
+    components: {},
+    methods: {
+      handle () {
+        console.log('aaa');
+      }
     }
-  }
-};
+  };
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
