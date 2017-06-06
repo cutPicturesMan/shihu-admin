@@ -3,15 +3,16 @@ import Router from 'vue-router';
 import Hello from '@/components/Hello';
 
 // 商家中心
-import Merchant from '@/pages/Merchant/Merchant';
-import MerchantList from '@/pages/Merchant/MerchantList';
-import MerchantAdd from '@/pages/Merchant/MerchantAdd';
-import MerchantCategory from '@/pages/Merchant/MerchantCategory';
+import Store from '@/pages/Store/Store';
+import StoreList from '@/pages/Store/StoreList';
+import StoreAdd from '@/pages/Store/StoreAdd';
+import StoreCategory from '@/pages/Store/StoreCategory';
+import StoreCategoryAdd from '@/pages/Store/StoreCategoryAdd';
 
 // 数据分析
 import Analyze from '@/pages/Analyze/Analyze';
 import AnalyzePlatform from '@/pages/Analyze/AnalyzePlatform';
-import AnalyzeMerchant from '@/pages/Analyze/AnalyzeMerchant';
+import AnalyzeStore from '@/pages/Analyze/AnalyzeStore';
 
 Vue.use(Router);
 
@@ -27,34 +28,40 @@ export default new Router({
     {
       path: '/list',
       name: 'list',
-      component: MerchantList
+      component: StoreList
     },
     // 商家中心
     {
-      path: '/merchant',
+      path: '/store',
       meta: {
         breadcrumb: '商家中心'
       },
-      component: Merchant,
+      component: Store,
       children: [
         {
           path: 'list',
           meta: {
-            breadcrumb: '商家列表'
+            breadcrumb: '店铺列表'
           },
-          component: MerchantList
+          component: StoreList
         }, {
-          path: 'add',
+          path: 'storeAdd',
           meta: {
-            breadcrumb: '新增商家'
+            breadcrumb: '新增店铺'
           },
-          component: MerchantAdd
+          component: StoreAdd
         }, {
           path: 'category',
           meta: {
-            breadcrumb: '商家分类'
+            breadcrumb: '店铺分类'
           },
-          component: MerchantCategory
+          component: StoreCategory
+        }, {
+          path: 'categoryAdd',
+          meta: {
+            breadcrumb: '新增店铺分类'
+          },
+          component: StoreCategoryAdd
         }
       ]
     },
@@ -73,11 +80,11 @@ export default new Router({
           },
           component: AnalyzePlatform
         }, {
-          path: 'merchant',
+          path: 'store',
           meta: {
             breadcrumb: '商家分析'
           },
-          component: AnalyzeMerchant
+          component: AnalyzeStore
         }
       ]
     }

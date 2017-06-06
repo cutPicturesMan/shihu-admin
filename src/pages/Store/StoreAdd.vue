@@ -1,5 +1,5 @@
 <template>
-  <div class="merchant-add">
+  <div class="pt50">
     <Form ref="form" :model="form" :rules="rule" :label-width="180">
       <Form-item label="门店名称" prop="name">
         <Row>
@@ -156,7 +156,4 @@
 </script>
 
 <style lang="scss" rel="stylesheet/scss" type="text/scss">
-  .merchant-add {
-    padding-top: 50px;
-  }
 </style>
