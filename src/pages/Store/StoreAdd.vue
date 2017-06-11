@@ -4,7 +4,7 @@
       <Form-item label="门店名称" prop="name">
         <Row>
           <Col span="5">
-          <Input v-model="form.name" placeholder="请输入"></Input>
+          <Input v-model="form.name" placeholder="请输入门店名称"></Input>
           </Col>
           <Col span="18" offset="1">
             <span class="text-stable">
@@ -14,10 +14,10 @@
           </Col>
         </Row>
       </Form-item>
-      <Form-item label="经营范围" prop="category">
+      <Form-item label="商家分类" prop="category">
         <Row>
           <Col span="5">
-          <Select v-model="form.category" placeholder="请选择">
+          <Select v-model="form.category" placeholder="请选择商家分类">
             <Option :value="item.value" v-for="item in categoryList" :key="item.label" v-text="item.label"></Option>
           </Select>
           </Col>
@@ -107,7 +107,7 @@
             {required: true, message: '门店名称不能为空', trigger: 'blur'}
           ],
           category: [
-            {required: true, message: '请选择经营范围', trigger: 'blur'}
+            {required: true, message: '请选择商家分类', trigger: 'blur'}
           ],
           tells: [
             {required: true, message: '门店电话不能为空', trigger: 'blur'}
@@ -136,6 +136,7 @@
       // 提交表单
       submit () {
         this.$refs['form'].validate((valid) => {
+          // 如果表单验证通过，则发送ajax
           if (valid) {
             this.$Message.success('提交成功!');
           } else {

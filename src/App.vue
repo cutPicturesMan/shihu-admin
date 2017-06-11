@@ -226,6 +226,7 @@ $sidebar-width: 200px;
   height: 60px;
   background: #fff;
   border-bottom: 1px solid rgba(0,0,0,.1);
+  font-size:14px;
 
   display: flex;
   align-items: center;
@@ -312,7 +313,8 @@ $sidebar-width: 200px;
     .layout-menu-right {
       right: 0;
       left: $w;
-      overflow:scroll;
+      overflow-x:hidden;
+      overflow-y:scroll;
     }
     .ivu-menu-vertical .ivu-menu-submenu .ivu-menu-item {
       padding: 0;
