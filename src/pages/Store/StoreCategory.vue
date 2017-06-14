@@ -1,7 +1,7 @@
 <template>
   <div class="store-category">
     <div class="pb15">
-      <Button @click="subViewShow">新增分类</Button>
+      <Button @click="subViewShow">新增分类</Button>{{count}}
     </div>
     <Table border :columns="columns" :data="list"></Table>
     <!--弹窗组件-->
@@ -10,7 +10,8 @@
       <!--新增、修改商家分类-->
       <StoreCategoryAdd
         :id="categoryId"
-        :name="categoryName"></StoreCategoryAdd>
+        :name="categoryName"
+        @on-change-success="_getListData"></StoreCategoryAdd>
     </subView>
   </div>
 </template>
@@ -99,6 +100,7 @@
                               this.$Modal.remove();
                               // 如果删除成功
                               if (res.data.result === 1) {
+                                this.list.splice(params.index, 1);
                                 this.$Message.success(res.data.msg);
                               } else {
                                 this.$Message.error(res.data.msg);
@@ -118,7 +120,27 @@
         ]
       };
     },
+    computed: {
+      count () {
+        console.log(this.$store.state);
+        return this.$store.state.count;
+      }
+    },
     methods: {
+      // 请求数据
+      _getListData () {
+        this.$Loading.start();
+        // 获取分类列表
+        axios.get(configMap.storeCategory)
+          .then((res) => {
+            this.$Loading.finish();
+            this.list = res.data;
+          })
+          .catch((e) => {
+            this.$Loading.error();
+            this.$Message.error('获取商家分类列表失败：' + e);
+          });
+      },
       // 新增商品分类
       subViewShow () {
         this.categoryId = '';
@@ -135,22 +157,13 @@
       subView
     },
     created () {
-      this.$Loading.start();
-      // 获取分类列表
-      axios.get(configMap.storeCategory)
-        .then((res) => {
-          this.$Loading.finish();
-          this.list = res.data;
-        })
-        .catch((e) => {
-          this.$Loading.error();
-          this.$Message.error('获取商家分类列表失败：' + e);
-        });
+      // 请求分类数据
+      this._getListData();
     }
   };
 </script>
 
 <style lang="scss" rel="stylesheet/scss" type="text/scss">
-  .store-category{
+  .store-category {
   }
 </style>

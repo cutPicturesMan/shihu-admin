@@ -5,7 +5,6 @@ let configMap = {
   storeCategory: '/admin/store/category',
   // 商家分类 - 名称是否唯一
   storeCategoryName: '/admin/store/categoryName'
-
 };
 
 module.exports = configMap;

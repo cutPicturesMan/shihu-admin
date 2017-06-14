@@ -10,7 +10,8 @@
       </Form-item>
       <Form-item>
         <Button type="primary" @click="submit">提交</Button>
-        <Button type="ghost" style="margin-left: 8px">重置</Button>
+        {{count}}
+        <Button type="ghost" style="margin-left: 8px" @click="increment">重置</Button>
       </Form-item>
     </Form>
   </div>
@@ -70,7 +71,23 @@
         }
       };
     },
+    computed: {
+      count: {
+        get () {
+          console.log(this.$store.state);
+          return this.$store.state.count;
+        },
+        set (newValue) {
+          console.log(newValue);
+          this.$store.state.count = newValue;
+        }
+      }
+    },
     methods: {
+      increment () {
+        console.log(1);
+        this.count++;
+      },
       // 新增、修改商家分类
       submit () {
         this.$refs.form.validate((valid) => {
@@ -98,6 +115,7 @@
                 this.$Loading.finish();
                 // 成功
                 if (res.data.result === 1) {
+                  this.$emit('changeSuccess');
                   this.$Message.success(res.data.msg);
                 } else {
                   this.$Message.error(res.data.msg);
