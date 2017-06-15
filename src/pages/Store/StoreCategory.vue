@@ -1,7 +1,8 @@
 <template>
   <div class="store-category">
     <div class="pb15">
-      <Button @click="subViewShow">新增分类</Button>{{count}}
+      <Button @click="subViewShow">新增分类</Button>
+      {{count}} --- {{countAlias}} --- {{countPlus}} --- {{id}}
     </div>
     <Table border :columns="columns" :data="list"></Table>
     <!--弹窗组件-->
@@ -21,6 +22,7 @@
   import configMap from '@/assets/js/config.js';
   import subView from '@/components/subView.vue';
   import StoreCategoryAdd from './StoreCategoryAdd.vue';
+  import { mapState } from 'Vuex';
 
   export default {
     data () {
@@ -74,6 +76,7 @@
                       this.categoryName = data.name || '';
                       this.categoryId = data._id || '';
                       this.subViewToggle = true;
+                      this.$store.commit('setStoreCategoryId', data._id);
                     }
                   }
                 }, '修改'),
@@ -120,12 +123,20 @@
         ]
       };
     },
-    computed: {
-      count () {
-        console.log(this.$store.state);
-        return this.$store.state.count;
-      }
-    },
+    computed: mapState({
+      count: state => state.count,
+      countAlias: 'count',
+      countPlus (state) {
+        return state.count + this.categoryId;
+      },
+      id: 'storeCategoryId'
+    }),
+//    computed: {
+//      count () {
+//        console.log(this.$store.state);
+//        return this.$store.state.count;
+//      }
+//    },
     methods: {
       // 请求数据
       _getListData () {
