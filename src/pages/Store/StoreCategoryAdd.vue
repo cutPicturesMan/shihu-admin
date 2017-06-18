@@ -10,30 +10,17 @@
       </Form-item>
       <Form-item>
         <Button type="primary" @click="submit">提交</Button>
-        {{count}}
-        <Button type="ghost" style="margin-left: 8px" @click="increment">重置</Button>
       </Form-item>
     </Form>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
+  import { mapState } from 'vuex';
   import axios from 'axios';
   import configMap from '@/assets/js/config.js';
 
   export default {
-    props: {
-      // 商家分类id
-      id: {
-        type: String,
-        default: ''
-      },
-      // 商家分类名称
-      name: {
-        type: String,
-        default: ''
-      }
-    },
     data () {
       // 商家分类异步验证
       const categoryValidate = (rule, value, callback) => {
@@ -72,69 +59,48 @@
       };
     },
     computed: {
-      count: {
-        get () {
-          console.log(this.$store.state);
-          return this.$store.state.count;
-        },
-        set (newValue) {
-          console.log(newValue);
-          this.$store.state.count = newValue;
+      ...mapState('StoreCategory', ['id']),
+      // 条目名称
+      name () {
+        let list = this.$store.storeCategory.list;
+        let id = this.$store.storeCategory.id;
+        let name = '';
+
+        // 如果id为空，表示新增
+        if (id) {
+          return name;
+        } else {
+          // 根据id找出选择的是哪一条数据
+          list.every((value) => {
+            if (value._id === id) {
+              name = value.name;
+              return false;
+            } else {
+              return true;
+            }
+          });
+
+          return name;
         }
       }
     },
     methods: {
-      increment () {
-        console.log(1);
-        this.count++;
-      },
       // 新增、修改商家分类
       submit () {
         this.$refs.form.validate((valid) => {
           if (valid) {
             // 如果表单验证通过，则发送ajax
             if (valid) {
-              this.$Loading.start();
-              let url = '';
-              let q = null;
-              // 如果id存在，表示是修改
-              if (this.form._id) {
-                url = `${configMap.storeCategory}/${this.form._id}`;
-                q = axios.put(url, {
-                  name: this.form.name
-                });
-              } else {
-                // 否则，表示新增
-                url = configMap.storeCategory;
-                q = axios.post(url, {
-                  name: this.form.name
-                });
-              }
-
-              q.then((res) => {
-                this.$Loading.finish();
-                // 成功
-                if (res.data.result === 1) {
-                  this.$emit('changeSuccess');
-                  this.$Message.success(res.data.msg);
-                } else {
-                  this.$Message.error(res.data.msg);
-                }
-              })
-                .catch((e) => {
-                  this.$Loading.error();
-                  this.$Message.error('操作失败：' + e);
-                });
+              this.$store.dispatch('StoreCategory/createOrUpdateItem', this.form);
             } else {
               this.$Message.error('表单验证失败');
             }
           }
         });
       }
-    },
-    components: {}
+    }
   };
 </script>
 
-<style lang="scss" rel="stylesheet/scss" type="text/scss">
+<style rel="stylesheet/scss" lang="scss" type="text/scss">
 </style>

@@ -77,7 +77,7 @@
 <script type="text/ecmascript-6">
   import MerchantOpeningTimes from '@/components/MerchantOpeningTimes/OpeningTimes';
   import MerchantTells from '@/components/MerchantTells/MerchantTells';
-  import Upload from '@/components/Upload';
+  import Upload from '@/components/Public/Upload';
 
   export default {
     name: 'list',
@@ -156,5 +156,5 @@
   };
 </script>
 
-<style lang="scss" rel="stylesheet/scss" type="text/scss">
+<style rel="stylesheet/scss" lang="scss" type="text/scss">
 </style>

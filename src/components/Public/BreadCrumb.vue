@@ -36,7 +36,7 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style lang="scss" rel="stylesheet/scss" type="text/scss">
+<style   lang="scss" type="text/scss" rel="stylesheet/scss"  lang="scss" type="text/scss">
 
   .bread-crumb{
     font-size: 14px;

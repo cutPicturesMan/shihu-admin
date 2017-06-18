@@ -137,12 +137,15 @@
           </i-col>
       </Row>
     </div>
+    <!--加载框-->
+    <Spin></Spin>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
 // 面包屑导航
-import BreadCrumb from '@/components/BreadCrumb';
+import BreadCrumb from '@/components/Public/BreadCrumb';
+import Spin from '@/components/Public/Spin';
 
 export default {
   data () {
@@ -156,7 +159,8 @@ export default {
     }
   },
   components: {
-    BreadCrumb
+    BreadCrumb,
+    Spin
   },
   methods: {
     toggleClick () {
@@ -165,7 +169,7 @@ export default {
   }
 };
 </script>
-<style lang="scss" rel="stylesheet/scss" type="text/scss">
+<style lang="scss" type="text/scss" rel="stylesheet/scss">
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;

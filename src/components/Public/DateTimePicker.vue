@@ -76,6 +76,6 @@
     }
   };
 </script>
-<style lang="scss" rel="stylesheet/scss" type="text/scss">
+<style   lang="scss" type="text/scss" rel="stylesheet/scss"  lang="scss" type="text/scss">
 
 </style>

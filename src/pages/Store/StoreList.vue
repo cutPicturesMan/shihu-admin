@@ -9,7 +9,7 @@
 </template>
 <script type="text/ecmascript-6">
   import axios from 'axios';
-  import DateTimePicker from '@/components/DateTimePicker.vue';
+  import DateTimePicker from '@/components/Public/DateTimePicker.vue';
 
   export default {
     data () {
@@ -151,7 +151,7 @@
     }
   };
 </script>
-<style lang="scss" rel="stylesheet/scss" type="text/scss">
+<style rel="stylesheet/scss" lang="scss" type="text/scss">
   .list-table {
     .merchant-name {
       padding: 10px 0;

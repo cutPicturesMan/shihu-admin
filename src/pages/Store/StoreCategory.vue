@@ -2,17 +2,12 @@
   <div class="store-category">
     <div class="pb15">
       <Button @click="subViewShow">新增分类</Button>
-      {{count}} --- {{countAlias}} --- {{countPlus}} --- {{id}}
     </div>
     <Table border :columns="columns" :data="list"></Table>
     <!--弹窗组件-->
-    <subView :toggle="subViewToggle"
-             @subViewClose="subViewClose">
+    <subView>
       <!--新增、修改商家分类-->
-      <StoreCategoryAdd
-        :id="categoryId"
-        :name="categoryName"
-        @on-change-success="_getListData"></StoreCategoryAdd>
+      <StoreCategoryAdd></StoreCategoryAdd>
     </subView>
   </div>
 </template>
@@ -20,21 +15,13 @@
 <script type="text/ecmascript-6">
   import axios from 'axios';
   import configMap from '@/assets/js/config.js';
-  import subView from '@/components/subView.vue';
+  import SubView from '@/components/Public/SubView.vue';
   import StoreCategoryAdd from './StoreCategoryAdd.vue';
-  import { mapState } from 'Vuex';
+  import { mapState, mapActions } from 'Vuex';
 
   export default {
     data () {
       return {
-        // 需要修改的分类id
-        categoryId: '',
-        // 需要修改的分类名称
-        categoryName: '',
-        // 是否显示修改商家分类子组件
-        subViewToggle: false,
-        // 分类列表
-        list: [],
         // table表头
         columns: [
           {
@@ -73,10 +60,10 @@
                   on: {
                     click: () => {
                       let data = this.list[params.index];
-                      this.categoryName = data.name || '';
-                      this.categoryId = data._id || '';
-                      this.subViewToggle = true;
-                      this.$store.commit('setStoreCategoryId', data._id);
+                      // 设置商品分类id为''
+                      this.$store.commit('StoreCategory/SET_STORE_CATEGORY_ID', data._id);
+                      // 显示页面
+                      this.$store.commit('OPEN_SUB_VIEW');
                     }
                   }
                 }, '修改'),
@@ -97,7 +84,7 @@
                         onOk: () => {
                           // 删除分类
                           let url = configMap.storeCategory + '/' + data._id;
-                          console.log(url);
+
                           axios.delete(url)
                             .then((res) => {
                               this.$Modal.remove();
@@ -108,7 +95,8 @@
                               } else {
                                 this.$Message.error(res.data.msg);
                               }
-                            }).catch((e) => {
+                            })
+                            .catch((e) => {
                               this.$Modal.remove();
                               this.$Message.error('操作失败：' + e);
                             });
@@ -123,58 +111,29 @@
         ]
       };
     },
-    computed: mapState({
-      count: state => state.count,
-      countAlias: 'count',
-      countPlus (state) {
-        return state.count + this.categoryId;
-      },
-      id: 'storeCategoryId'
-    }),
-//    computed: {
-//      count () {
-//        console.log(this.$store.state);
-//        return this.$store.state.count;
-//      }
-//    },
+    computed: mapState('StoreCategory', ['id', 'list']),
     methods: {
-      // 请求数据
-      _getListData () {
-        this.$Loading.start();
-        // 获取分类列表
-        axios.get(configMap.storeCategory)
-          .then((res) => {
-            this.$Loading.finish();
-            this.list = res.data;
-          })
-          .catch((e) => {
-            this.$Loading.error();
-            this.$Message.error('获取商家分类列表失败：' + e);
-          });
-      },
+      ...mapActions('StoreCategory', ['getListData']),
       // 新增商品分类
       subViewShow () {
-        this.categoryId = '';
-        this.categoryName = '';
-        this.subViewToggle = true;
-      },
-      // 关闭商品分类组件
-      subViewClose () {
-        this.subViewToggle = false;
+        // 设置商品分类id为''
+        this.$store.commit('StoreCategory/SET_STORE_CATEGORY_ID');
+        // 显示页面
+        this.$store.commit('OPEN_SUB_VIEW');
       }
     },
     components: {
       StoreCategoryAdd,
-      subView
+      SubView
     },
     created () {
-      // 请求分类数据
-      this._getListData();
+      // 请求商家分类数据
+      this.$store.dispatch('StoreCategory/getListData');
     }
   };
 </script>
 
-<style lang="scss" rel="stylesheet/scss" type="text/scss">
+<style rel="stylesheet/scss" lang="scss" type="text/scss">
   .store-category {
   }
 </style>

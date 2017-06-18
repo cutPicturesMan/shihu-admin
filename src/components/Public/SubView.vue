@@ -1,7 +1,7 @@
 <template>
   <div>
     <transition name="sub-view">
-      <div class="sub-view" v-if="toggle">
+      <div class="sub-view" v-if="subViewToggle">
         <div class="layout-header">
           <div class="layout-breadcrumb">
             <span class="go-back" @click="close">
@@ -21,24 +21,20 @@
 </template>
 
 <script type="text/ecmascript-6">
+  import { mapState } from 'vuex';
+
   export default {
-    props: {
-      // 弹窗开关
-      toggle: {
-        type: Boolean,
-        default: false
-      }
-    },
+    computed: mapState(['subViewToggle']),
     methods: {
       // 关闭弹窗
       close () {
-        this.$emit('subViewClose');
+        this.$store.commit('CLOSE_SPIN');
       }
     }
   };
 </script>
 
-<style rel="stylesheet/scss" type="text/scss">
+<style rel="stylesheet/scss" lang="scss" type="text/scss">
   .sub-view {
     background-color: #fff;
     position: absolute;
@@ -48,12 +44,15 @@
     left: 0;
     z-index: 100;
   }
-  .sub-view-enter-active{
+
+  .sub-view-enter-active {
     animation: slideRightIn .4s;
   }
-  .sub-view-leave-active{
+
+  .sub-view-leave-active {
     animation: slideRightOut .4s;
   }
+
   @keyframes slideRightIn {
     0% {
       transform: translate(100%, 0);
@@ -64,6 +63,7 @@
       opacity: 1;
     }
   }
+
   @keyframes slideRightOut {
     0% {
       transform: translate(0, 0);
