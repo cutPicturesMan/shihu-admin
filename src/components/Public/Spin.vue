@@ -16,7 +16,7 @@
 </script>
 
 <style rel="stylesheet/scss"  lang="scss" type="text/scss">
-  $base: 100px;
+  $base: 80px;
   .app-spin {
     width: $base;
     height: $base;
@@ -28,6 +28,11 @@
     left: 50%;
     margin-top: - $base/2;
     margin-left: - $base/2;
+    .ivu-spin{
+      color:#fff;
+      background-color: rgba(0, 0, 0, .7);
+      border-radius: 5px;
+    }
   }
 
   .demo-spin-icon-load {
