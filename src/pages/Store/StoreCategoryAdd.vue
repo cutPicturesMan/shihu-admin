@@ -2,11 +2,7 @@
   <div>
     <Form class="pt50" ref="form" :model="form" :rules="rule" :label-width="180">
       <Form-item label="商家分类" prop="name">
-        <Row>
-          <Col span="5">
           <Input v-model="form.name" placeholder="请输入商家分类"></Input>
-          </Col>
-        </Row>
       </Form-item>
       <Form-item>
         <Button type="primary" @click="submit">提交</Button>
@@ -16,7 +12,6 @@
 </template>
 
 <script type="text/ecmascript-6">
-  import { mapState } from 'vuex';
   import axios from 'axios';
   import configMap from '@/assets/js/config.js';
 
@@ -45,10 +40,27 @@
           });
       };
 
+      let list = this.$store.state.StoreCategory.list;
+      let id = this.$store.state.StoreCategory.id;
+      let name = '';
+      // 如果id不为空，表示修改
+      if (id) {
+        console.log('-----');
+        // 根据id找出选择的是哪一条数据
+        list.every((value) => {
+          if (value._id === id) {
+            name = value.name;
+            return false;
+          } else {
+            return true;
+          }
+        });
+      }
+
       return {
         form: {
-          _id: this.id || '',
-          name: this.name || ''
+          _id: id || '',
+          name: name || ''
         },
         rule: {
           name: {
@@ -57,32 +69,6 @@
           }
         }
       };
-    },
-    computed: {
-      ...mapState('StoreCategory', ['id']),
-      // 条目名称
-      name () {
-        let list = this.$store.storeCategory.list;
-        let id = this.$store.storeCategory.id;
-        let name = '';
-
-        // 如果id为空，表示新增
-        if (id) {
-          return name;
-        } else {
-          // 根据id找出选择的是哪一条数据
-          list.every((value) => {
-            if (value._id === id) {
-              name = value.name;
-              return false;
-            } else {
-              return true;
-            }
-          });
-
-          return name;
-        }
-      }
     },
     methods: {
       // 新增、修改商家分类

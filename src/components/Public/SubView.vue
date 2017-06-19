@@ -28,7 +28,7 @@
     methods: {
       // 关闭弹窗
       close () {
-        this.$store.commit('CLOSE_SPIN');
+        this.$store.commit('CLOSE_SUB_VIEW');
       }
     }
   };
@@ -37,12 +37,15 @@
 <style rel="stylesheet/scss" lang="scss" type="text/scss">
   .sub-view {
     background-color: #fff;
-    position: absolute;
-    top: 0;
+    position: fixed;
+    top: 50px;
     right: 0;
     bottom: 0;
-    left: 0;
+    left: 200px;
     z-index: 100;
+    .go-back{
+      cursor: pointer;
+    }
   }
 
   .sub-view-enter-active {

@@ -13,12 +13,13 @@
 </template>
 
 <script type="text/ecmascript-6">
-  import axios from 'axios';
-  import configMap from '@/assets/js/config.js';
   import SubView from '@/components/Public/SubView.vue';
   import StoreCategoryAdd from './StoreCategoryAdd.vue';
-  import { mapState, mapActions } from 'Vuex';
-
+  import utils from '@/assets/js/utils.js';
+  import { mapState } from 'Vuex';
+  console.log(utils.formatToYMD());
+  console.log(utils.formatToHMS());
+  console.log();
   export default {
     data () {
       return {
@@ -30,16 +31,18 @@
           },
           {
             title: '创建时间',
-            key: 'meta',
+            key: 'createdAt',
             render: (h, params) => {
-              return h('div', params.row.meta.create);
+              let date = params.row.createdAt ? utils.formatDate(params.row.createdAt) : '';
+              return h('div', date);
             }
           },
           {
             title: '修改时间',
-            key: 'meta',
+            key: 'updatedAt',
             render: (h, params) => {
-              return h('div', params.row.meta.create);
+              let date = params.row.updatedAt ? utils.formatDate(params.row.updatedAt) : '';
+              return h('div', date);
             }
           },
           {
@@ -82,24 +85,10 @@
                         content: '<p>您确定要删除' + name + '吗？</p>',
                         loading: true,
                         onOk: () => {
-                          // 删除分类
-                          let url = configMap.storeCategory + '/' + data._id;
-
-                          axios.delete(url)
-                            .then((res) => {
-                              this.$Modal.remove();
-                              // 如果删除成功
-                              if (res.data.result === 1) {
-                                this.list.splice(params.index, 1);
-                                this.$Message.success(res.data.msg);
-                              } else {
-                                this.$Message.error(res.data.msg);
-                              }
-                            })
-                            .catch((e) => {
-                              this.$Modal.remove();
-                              this.$Message.error('操作失败：' + e);
-                            });
+                          this.$store.dispatch('StoreCategory/deleteItem', {
+                            id: data._id,
+                            index: params.index
+                          });
                         }
                       });
                     }
@@ -113,7 +102,6 @@
     },
     computed: mapState('StoreCategory', ['id', 'list']),
     methods: {
-      ...mapActions('StoreCategory', ['getListData']),
       // 新增商品分类
       subViewShow () {
         // 设置商品分类id为''

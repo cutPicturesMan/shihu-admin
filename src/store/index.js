@@ -24,7 +24,6 @@ export default new Vuex.Store({
     },
     // 开启右侧弹出框
     [type.OPEN_SUB_VIEW] (state) {
-      console.log(state);
       state.subViewToggle = true;
     },
     // 关闭右侧弹出框

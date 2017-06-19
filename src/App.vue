@@ -344,6 +344,9 @@ $sidebar-width: 200px;
       float: right;
     }
   }
+  .ivu-input{
+    width: auto;
+  }
 }
 
 </style>
