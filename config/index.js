@@ -29,7 +29,7 @@ module.exports = {
     assetsPublicPath: '/',
     // 跨域配置
     proxyTable: {
-      '/admin': {
+      '/Admin': {
         target: 'http://localhost:3000'
       }
     },

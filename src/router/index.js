@@ -3,11 +3,11 @@ import Router from 'vue-router';
 import Hello from '@/components/Hello';
 
 // 商家中心
-import Store from '@/pages/Store/Store';
-import StoreList from '@/pages/Store/StoreList';
-import StoreAdd from '@/pages/Store/StoreAdd';
-import StoreCategory from '@/pages/Store/StoreCategory';
-import StoreCategoryAdd from '@/pages/Store/StoreCategoryAdd';
+import StoreCenter from '@/pages/StoreCenter/Index';
+import StoreList from '@/pages/StoreCenter/Store/List';
+import StoreAdd from '@/pages/StoreCenter/Store/Add';
+import StoreCategory from '@/pages/StoreCenter/StoreCategory/List';
+import StoreCategoryAdd from '@/pages/StoreCenter/StoreCategory/Add';
 
 // 数据分析
 import Analyze from '@/pages/Analyze/Analyze';
@@ -36,7 +36,7 @@ export default new Router({
       meta: {
         breadcrumb: '商家中心'
       },
-      component: Store,
+      component: StoreCenter,
       children: [
         {
           path: 'list',

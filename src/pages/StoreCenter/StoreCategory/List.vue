@@ -14,12 +14,10 @@
 
 <script type="text/ecmascript-6">
   import SubView from '@/components/Public/SubView.vue';
-  import StoreCategoryAdd from './StoreCategoryAdd.vue';
+  import StoreCategoryAdd from './Add.vue';
   import utils from '@/assets/js/utils.js';
   import { mapState } from 'Vuex';
-  console.log(utils.formatToYMD());
-  console.log(utils.formatToHMS());
-  console.log();
+
   export default {
     data () {
       return {

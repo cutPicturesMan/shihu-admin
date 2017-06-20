@@ -19,27 +19,27 @@
                     <span class="submenu-title">店铺中心</span>
                 </template>
                 <Menu-item name="1-1">
-                  <router-link to="/store/category" class="router-link">
-                    <Icon type="grid"></Icon>
-                    <span class="submenu-subtitle">店铺分类</span>
-                  </router-link>
-                </Menu-item>
-                <Menu-item name="1-2">
                   <router-link to="/store/list" class="router-link">
                     <Icon type="android-list"></Icon>
                     <span class="submenu-subtitle">店铺列表</span>
                   </router-link>
                 </Menu-item>
-                <Menu-item name="1-3">
-                  <router-link to="/store/categoryAdd" class="router-link">
-                    <Icon type="plus-circled"></Icon>
-                    <span class="submenu-subtitle">新增店铺分类</span>
-                  </router-link>
-                </Menu-item>
-                <Menu-item name="1-4">
+                <Menu-item name="1-2">
                   <router-link to="/store/storeAdd" class="router-link">
                     <Icon type="plus-circled"></Icon>
                     <span class="submenu-subtitle">新增店铺</span>
+                  </router-link>
+                </Menu-item>
+                <Menu-item name="1-3">
+                  <router-link to="/store/category" class="router-link">
+                    <Icon type="grid"></Icon>
+                    <span class="submenu-subtitle">店铺分类</span>
+                  </router-link>
+                </Menu-item>
+                <Menu-item name="1-4">
+                  <router-link to="/store/categoryAdd" class="router-link">
+                    <Icon type="plus-circled"></Icon>
+                    <span class="submenu-subtitle">新增分类</span>
                   </router-link>
                 </Menu-item>
               </Submenu>
@@ -345,7 +345,7 @@ $sidebar-width: 200px;
     }
   }
   .ivu-input{
-    width: auto;
+    /*width: auto;*/
   }
 }
 
