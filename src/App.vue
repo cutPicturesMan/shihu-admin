@@ -33,13 +33,19 @@
                 <Menu-item name="1-3">
                   <router-link to="/shop/category_add" class="router-link">
                     <Icon type="plus-circled"></Icon>
-                    <span class="submenu-subtitle">新增店铺分类</span>
+                    <span class="submenu-subtitle">新增店铺</span>
+                  </router-link>
+                </Menu-item>
+                <Menu-item name="1-3">
+                  <router-link to="/store/category" class="router-link">
+                    <Icon type="grid"></Icon>
+                    <span class="submenu-subtitle">店铺分类</span>
                   </router-link>
                 </Menu-item>
                 <Menu-item name="1-4">
                   <router-link to="/shop/shop_add" class="router-link">
                     <Icon type="plus-circled"></Icon>
-                    <span class="submenu-subtitle">新增店铺</span>
+                    <span class="submenu-subtitle">新增分类</span>
                   </router-link>
                 </Menu-item>
               </Submenu>

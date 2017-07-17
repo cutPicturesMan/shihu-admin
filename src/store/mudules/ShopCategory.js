@@ -8,7 +8,6 @@ export default {
   state: {
     // 需要修改的商品分类id
     id: '',
-    count: 2,
     // 商品分类列表
     list: []
   },
