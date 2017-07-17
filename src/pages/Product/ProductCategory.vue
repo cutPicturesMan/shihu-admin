@@ -1,28 +1,67 @@
 <template>
   <div class="store-category">
-    <div class="pb15">
-      <Button @click="subViewShow">新增分类</Button>
+    <div class="btns-group">
+      <Button-group class="pb15">
+        <Button type="text" shape="circle" icon="plus-round" @click="addModelToggle = true">新增</Button>
+        <Button type="text" shape="circle" icon="edit">修改</Button>
+        <Button type="text" shape="circle" icon="android-delete">删除</Button>
+        <Button type="text" shape="circle" icon="android-refresh">刷新</Button>
+        <Button type="text" shape="circle" icon="close-circled">取消选择</Button>
+      </Button-group>
     </div>
+    <Form :model="formItem" label-position="left" :label-width="60" inline>
+      <Form-item label="分类名称">
+        <Input v-model="formItem.input" placeholder="请输入名称"></Input>
+      </Form-item>
+      <Form-item label="创建日期">
+        <Row>
+          <Col span="11">
+          <Date-picker type="date" placeholder="起始日期" v-model="formItem.date_from"></Date-picker>
+          </Col>
+          <Col span="2" style="text-align: center">-</Col>
+          <Col span="11">
+          <Date-picker type="date" placeholder="结束日期" v-model="formItem.date_to"></Date-picker>
+          </Col>
+        </Row>
+      </Form-item>
+      <Form-item>
+        <Button type="primary" :loading="isSearching" @click="search">
+          <span v-if="!isSearching">查询</span>
+          <span v-else>正在查询中...</span>
+        </Button>
+      </Form-item>
+    </Form>
+
     <Table border :columns="columns" :data="list"></Table>
-    <!--弹窗组件-->
-    <subView>
+
+    <Modal v-model="addModelToggle">
+      <p slot="header">新增</p>
       <!--新增、修改商家分类-->
-      <StoreCategoryAdd></StoreCategoryAdd>
-    </subView>
+      <ProductCategoryAdd></ProductCategoryAdd>
+    </Modal>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
   import SubView from '@/components/Public/SubView.vue';
-  import StoreCategoryAdd from './StoreCategoryAdd.vue';
+  import ProductCategoryAdd from '../Product/ProductCategoryAdd.vue';
   import utils from '@/assets/js/utils.js';
   import { mapState } from 'Vuex';
-  console.log(utils.formatToYMD());
-  console.log(utils.formatToHMS());
-  console.log();
+
   export default {
     data () {
       return {
+        // 是否正在查询中
+        isSearching: false,
+        // 是否显示新增弹窗
+        addModelToggle: false,
+        // 查询字符串
+        formItem: {
+          input: '',
+          date_from: '',
+          date_to: '',
+          is_valid: true
+        },
         // table表头
         columns: [
           {
@@ -102,6 +141,10 @@
     },
     computed: mapState('StoreCategory', ['id', 'list']),
     methods: {
+      // 查询商品
+      search () {
+        this.isSearching = true;
+      },
       // 新增商品分类
       subViewShow () {
         // 设置商品分类id为''
@@ -111,7 +154,7 @@
       }
     },
     components: {
-      StoreCategoryAdd,
+      ProductCategoryAdd,
       SubView
     },
     created () {
@@ -123,5 +166,8 @@
 
 <style rel="stylesheet/scss" lang="scss" type="text/scss">
   .store-category {
+    .btns-group{
+      margin-left: -15px;
+    }
   }
 </style>

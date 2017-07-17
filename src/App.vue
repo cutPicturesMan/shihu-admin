@@ -19,25 +19,25 @@
                     <span class="submenu-title">店铺中心</span>
                 </template>
                 <Menu-item name="1-1">
-                  <router-link to="/store/category" class="router-link">
+                  <router-link to="/shop/category" class="router-link">
                     <Icon type="grid"></Icon>
                     <span class="submenu-subtitle">店铺分类</span>
                   </router-link>
                 </Menu-item>
                 <Menu-item name="1-2">
-                  <router-link to="/store/list" class="router-link">
+                  <router-link to="/shop/list" class="router-link">
                     <Icon type="android-list"></Icon>
                     <span class="submenu-subtitle">店铺列表</span>
                   </router-link>
                 </Menu-item>
                 <Menu-item name="1-3">
-                  <router-link to="/store/categoryAdd" class="router-link">
+                  <router-link to="/shop/category_add" class="router-link">
                     <Icon type="plus-circled"></Icon>
                     <span class="submenu-subtitle">新增店铺分类</span>
                   </router-link>
                 </Menu-item>
                 <Menu-item name="1-4">
-                  <router-link to="/store/storeAdd" class="router-link">
+                  <router-link to="/shop/shop_add" class="router-link">
                     <Icon type="plus-circled"></Icon>
                     <span class="submenu-subtitle">新增店铺</span>
                   </router-link>
@@ -46,18 +46,18 @@
               <Submenu name="2">
                 <template slot="title">
                   <Icon type="ios-nutrition" :size="iconSize"></Icon>
-                  <span class="submenu-title">菜品中心</span>
+                  <span class="submenu-title">商品中心</span>
                 </template>
                 <Menu-item name="2-1">
-                  <router-link to="/analyze/store" class="router-link">
+                  <router-link to="/product/product" class="router-link">
                     <Icon type="android-list"></Icon>
-                    <span class="submenu-subtitle">菜品列表</span>
+                    <span class="submenu-subtitle">商品列表</span>
                   </router-link>
                 </Menu-item>
                 <Menu-item name="2-2">
-                  <router-link to="/analyze/store" class="router-link">
+                  <router-link to="/product/category" class="router-link">
                     <Icon type="ios-navigate"></Icon>
-                    <span class="submenu-subtitle">新增菜品</span>
+                    <span class="submenu-subtitle">商品分类</span>
                   </router-link>
                 </Menu-item>
               </Submenu>
@@ -67,13 +67,13 @@
                   <span class="submenu-title">订单中心</span>
                 </template>
                 <Menu-item name="3-1">
-                  <router-link to="/analyze/store" class="router-link">
+                  <router-link to="/analyze/shop" class="router-link">
                     <Icon type="ios-list-outline"></Icon>
                     <span class="submenu-subtitle">订单列表</span>
                   </router-link>
                 </Menu-item>
                 <Menu-item name="3-2">
-                  <router-link to="/analyze/store" class="router-link">
+                  <router-link to="/analyze/shop" class="router-link">
                     <Icon type="chatbubble-working"></Icon>
                     <span class="submenu-subtitle">订单评论</span>
                   </router-link>
@@ -90,7 +90,7 @@
                   </router-link>
                 </Menu-item>
                 <Menu-item name="4-2">
-                  <router-link to="/analyze/store" class="router-link">
+                  <router-link to="/analyze/shop" class="router-link">
                     <Icon type="eye"></Icon><span class="submenu-subtitle">店铺分析</span>
                   </router-link>
                 </Menu-item>
@@ -106,13 +106,13 @@
                   <span class="submenu-title">权限管理</span>
                 </template>
                 <Menu-item name="5-1">
-                  <router-link to="/analyze/store" class="router-link">
+                  <router-link to="/analyze/shop" class="router-link">
                     <Icon type="ios-people"></Icon>
                     <span class="submenu-subtitle">管理员列表</span>
                   </router-link>
                 </Menu-item>
                 <Menu-item name="5-2">
-                  <router-link to="/analyze/store" class="router-link">
+                  <router-link to="/analyze/shop" class="router-link">
                     <Icon type="ios-list-outline"></Icon>
                     <span class="submenu-subtitle">权限列表</span>
                   </router-link>
@@ -345,7 +345,7 @@ $sidebar-width: 200px;
     }
   }
   .ivu-input{
-    width: auto;
+    /*width: auto;*/
   }
 }
 

@@ -3,16 +3,21 @@ import Router from 'vue-router';
 import Hello from '@/components/Hello';
 
 // 商家中心
-import Store from '@/pages/Store/Store';
-import StoreList from '@/pages/Store/StoreList';
-import StoreAdd from '@/pages/Store/StoreAdd';
-import StoreCategory from '@/pages/Store/StoreCategory';
-import StoreCategoryAdd from '@/pages/Store/StoreCategoryAdd';
+import Shop from '@/pages/Shop/Shop';
+import ShopList from '@/pages/Shop/ShopList';
+import ShopAdd from '@/pages/Shop/ShopAdd';
+import ShopCategory from '@/pages/Shop/ShopCategory';
+import ShopCategoryAdd from '@/pages/Shop/ShopCategoryAdd';
+
+// 商品中心
+import Product from '@/pages/Product/Product';
+import ProductList from '@/pages/Product/ProductList';
+import ProductCategory from '@/pages/Product/ProductCategory';
 
 // 数据分析
 import Analyze from '@/pages/Analyze/Analyze';
 import AnalyzePlatform from '@/pages/Analyze/AnalyzePlatform';
-import AnalyzeStore from '@/pages/Analyze/AnalyzeStore';
+import AnalyzeShop from '@/pages/Analyze/AnalyzeShop';
 
 Vue.use(Router);
 
@@ -28,40 +33,63 @@ export default new Router({
     {
       path: '/list',
       name: 'list',
-      component: StoreList
+      component: ShopList
     },
     // 商家中心
     {
-      path: '/store',
+      path: '/shop',
       meta: {
         breadcrumb: '商家中心'
       },
-      component: Store,
+      component: Shop,
       children: [
         {
           path: 'list',
           meta: {
             breadcrumb: '店铺列表'
           },
-          component: StoreList
+          component: ShopList
         }, {
-          path: 'storeAdd',
+          path: 'shop_add',
           meta: {
             breadcrumb: '新增店铺'
           },
-          component: StoreAdd
+          component: ShopAdd
         }, {
           path: 'category',
           meta: {
             breadcrumb: '店铺分类'
           },
-          component: StoreCategory
+          component: ShopCategory
         }, {
-          path: 'categoryAdd',
+          path: 'category_add',
           meta: {
             breadcrumb: '新增店铺分类'
           },
-          component: StoreCategoryAdd
+          component: ShopCategoryAdd
+        }
+      ]
+    },
+    // 商品中心
+    {
+      path: '/product',
+      meta: {
+        breadcrumb: '商品中心'
+      },
+      component: Product,
+      children: [
+        {
+          path: 'list',
+          meta: {
+            breadcrumb: '商品列表'
+          },
+          component: ProductList
+        }, {
+          path: 'category',
+          meta: {
+            breadcrumb: '商品分类'
+          },
+          component: ProductCategory
         }
       ]
     },
@@ -80,11 +108,11 @@ export default new Router({
           },
           component: AnalyzePlatform
         }, {
-          path: 'store',
+          path: 'shop',
           meta: {
             breadcrumb: '商家分析'
           },
-          component: AnalyzeStore
+          component: AnalyzeShop
         }
       ]
     }

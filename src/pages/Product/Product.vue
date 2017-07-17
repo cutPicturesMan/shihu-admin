@@ -10,6 +10,6 @@
 };
 </script>
 
-<style>
+<style rel="stylesheet/scss" lang="scss" type="text/scss">
 
 </style>

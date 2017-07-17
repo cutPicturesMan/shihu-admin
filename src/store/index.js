@@ -1,8 +1,8 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 import * as type from './mutation-types';
-import Store from './mudules/Store';
-import StoreCategory from './mudules/StoreCategory';
+import Store from './mudules/Shop';
+import StoreCategory from './mudules/ShopCategory';
 
 Vue.use(Vuex);
 
