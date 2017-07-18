@@ -5,12 +5,12 @@ export default {
     StoreList: []
   },
   mutations: {
-    [type.SET_STORE_ID] (state, id) {
+    [type.SET_SHOP_ID] (state, id) {
       console.log('2222222222');
     }
   },
   actions: {
-    [type.GET_STORE_LIST] (state) {
+    [type.GET_SHOP_LIST] (state) {
       console.log(111);
     },
     aaa (context, payload) {

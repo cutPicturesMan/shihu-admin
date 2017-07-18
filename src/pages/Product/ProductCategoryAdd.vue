@@ -28,27 +28,11 @@
 
   export default {
     data () {
-      let list = this.$store.state.StoreCategory.list;
-      let id = this.$store.state.StoreCategory.id;
-
-      let name = '';
-      // 如果id不为空，表示修改
-      if (id) {
-        console.log('-----');
-        // 根据id找出选择的是哪一条数据
-        list.every((value) => {
-          if (value._id === id) {
-            name = value.name;
-            return false;
-          } else {
-            return true;
-          }
-        });
-      }
+      let item = this.$store.state.ProductCategory.item;
 
       return {
         form: {
-          name: name || '',
+          name: item.name || '',
           weight: 1,
           is_valid: true
         },
@@ -66,7 +50,7 @@
           if (valid) {
             // 如果表单验证通过，则发送ajax
             if (valid) {
-              this.$store.dispatch('StoreCategory/createOrUpdateItem', this.form);
+              this.$store.dispatch('ProductCategory/createOrUpdateItem', this.form);
             } else {
               this.$Message.error('表单验证失败');
             }

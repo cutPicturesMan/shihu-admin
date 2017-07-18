@@ -1,8 +1,9 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 import * as type from './mutation-types';
-import Store from './mudules/Shop';
-import StoreCategory from './mudules/ShopCategory';
+import Store from './modules/Shop';
+import StoreCategory from './modules/ShopCategory';
+import ProductCategory from './modules/ProductCategory';
 
 Vue.use(Vuex);
 
@@ -33,6 +34,7 @@ export default new Vuex.Store({
   },
   modules: {
     Store,
-    StoreCategory
+    StoreCategory,
+    ProductCategory
   }
 });

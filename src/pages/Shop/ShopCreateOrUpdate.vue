@@ -1,37 +1,34 @@
 <template>
   <div class="pt50">
-    <Form ref="form" :model="form" :rules="rule" :label-width="180">
+    <Modal
+      :width="800"
+      :value="createOrUpdateModelToggle"
+      @on-ok="submit"
+      @on-cancel="close">
+      <p slot="header">新增店铺</p>
+      <Form ref="form" :model="form" :rules="rule" :label-width="180">
       <Form-item label="门店名称" prop="name">
         <Row>
           <Col span="5">
           <Input v-model="form.name" placeholder="请输入门店名称"></Input>
           </Col>
-          <Col span="18" offset="1">
-            <span class="text-stable">
-              <Icon type="information-circled"></Icon>
-              最多修改3次
-            </span>
-          </Col>
         </Row>
       </Form-item>
-      <Form-item label="商家分类" prop="category">
+      <Form-item label="门店分类" prop="category">
         <Row>
           <Col span="5">
-          <Select v-model="form.category" placeholder="请选择商家分类">
+          <Select v-model="form.category" placeholder="请选择门店分类">
             <Option :value="item.value" v-for="item in categoryList" :key="item.label" v-text="item.label"></Option>
           </Select>
           </Col>
           <Col span="18" offset="1">
-
           </Col>
         </Row>
       </Form-item>
-
       <!--门店电话-->
       <MerchantTells :form="form"></MerchantTells>
       <!--营业时间-->
       <MerchantOpeningTimes :form="form"></MerchantOpeningTimes>
-
       <Form-item label="店铺简介">
         <Row>
           <Col span="8">
@@ -71,6 +68,14 @@
         <Button type="ghost" style="margin-left: 8px">取消</Button>
       </Form-item>
     </Form>
+      <div slot="footer">
+        <Button type="ghost" @click="close">取消</Button>
+        <Button type="primary" :loading="isLoading" @click="submit">
+          <span v-if="!isLoading">提交</span>
+          <span v-else>Loading...</span>
+        </Button>
+      </div>
+    </Modal>
   </div>
 </template>
 
@@ -80,9 +85,17 @@
   import Upload from '@/components/Public/Upload';
 
   export default {
-    name: 'list',
+    props: {
+      // 显示隐藏开关
+      createOrUpdateModelToggle: {
+        type: Boolean,
+        default: false
+      }
+    },
     data () {
       return {
+        // 是否正在新增或者修改中
+        isLoading: false,
         // 需要提交的表单数据
         form: {
           name: '',
@@ -133,9 +146,12 @@
       };
     },
     methods: {
+      close () {
+        this.$emit('update:createOrUpdateModelToggle', false);
+      },
       // 提交表单
       submit () {
-        this.$refs['form'].validate((valid) => {
+        this.$refs.form.validate((valid) => {
           // 如果表单验证通过，则发送ajax
           if (valid) {
             this.$Message.success('提交成功!');

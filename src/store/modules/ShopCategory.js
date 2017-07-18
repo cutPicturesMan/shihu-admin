@@ -64,6 +64,7 @@ export default {
       q
         .then((res) => {
           commit('CLOSE_SPIN', null, {root: true});
+          iView.Modal.remove();
           // 成功
           if (res.data.result === 1) {
             dispatch('getListData');
@@ -76,6 +77,7 @@ export default {
           }
         })
         .catch((e) => {
+          iView.Modal.remove();
           commit('CLOSE_SPIN', null, {root: true});
           iView.Message.error('操作失败：' + e);
         });

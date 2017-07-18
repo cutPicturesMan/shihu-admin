@@ -12,7 +12,7 @@
         <Input v-model="item.tell" placeholder="请输入门店联系方式"></Input>
         </Col>
         <Col span="15" offset="1">
-        <Button type="ghost" @click="removeTell(index)" v-if="index !== 0">删除</Button>
+        <Button type="ghost" @click="removeTell(index)" v-if="form.tells.length > 1">删除</Button>
         </Col>
       </Row>
     </Form-item>

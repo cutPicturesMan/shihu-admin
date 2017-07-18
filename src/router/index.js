@@ -5,7 +5,6 @@ import Hello from '@/components/Hello';
 // 商家中心
 import Shop from '@/pages/Shop/Shop';
 import ShopList from '@/pages/Shop/ShopList';
-import ShopAdd from '@/pages/Shop/ShopAdd';
 import ShopCategory from '@/pages/Shop/ShopCategory';
 import ShopCategoryAdd from '@/pages/Shop/ShopCategoryAdd';
 
@@ -49,12 +48,6 @@ export default new Router({
             breadcrumb: '店铺列表'
           },
           component: ShopList
-        }, {
-          path: 'shop_add',
-          meta: {
-            breadcrumb: '新增店铺'
-          },
-          component: ShopAdd
         }, {
           path: 'category',
           meta: {
