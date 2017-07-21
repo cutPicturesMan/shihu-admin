@@ -2,24 +2,24 @@
   <div class="">
     <Form-item
       label="门店电话"
-      v-for="(item, index) in form.tells"
+      v-for="(item, index) in form.phone_list"
       :key="item"
       :required="true"
-      :prop="'tells.' + index + '.tell'"
+      :prop="'phone_list.' + index + '.phone'"
       :rules="{required: true, message: '门店电话不能为空', trigger: 'blur'}">
       <Row>
-        <Col span="5">
-        <Input v-model="item.tell" placeholder="请输入门店联系方式"></Input>
+        <Col span="7">
+        <Input v-model="item.phone" placeholder="请输入门店联系方式"></Input>
         </Col>
         <Col span="15" offset="1">
-        <Button type="ghost" @click="removeTell(index)" v-if="form.tells.length > 1">删除</Button>
+        <Button type="ghost" @click="removePhone(index)" v-if="form.phone_list.length > 1">删除</Button>
         </Col>
       </Row>
     </Form-item>
     <Form-item>
       <Row>
         <Col span="5">
-        <Button type="dashed" long @click="addTell" icon="plus-round">新增门店电话</Button>
+        <Button type="dashed" long @click="addPhone" icon="plus-round">新增门店电话</Button>
         </Col>
       </Row>
     </Form-item>
@@ -37,17 +37,17 @@
     },
     methods: {
       // 新增联系方式
-      addTell () {
-        this.form.tells.push({
+      addPhone () {
+        this.form.phone_list.push({
           value: ''
         });
       },
       // 移除联系方式
-      removeTell (index) {
-        if (this.form.tells.length === 1) {
+      removePhone (index) {
+        if (this.form.phone_list.length === 1) {
           return this.$Message.warning('至少填写一个门店电话');
         }
-        this.form.tells.splice(index, 1);
+        this.form.phone_list.splice(index, 1);
       }
     }
   };

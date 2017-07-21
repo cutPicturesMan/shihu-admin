@@ -31,6 +31,9 @@ module.exports = {
     proxyTable: {
       '/admin': {
         target: 'http://localhost:3000'
+      },
+      '/upload': {
+        target: 'http://localhost:3000'
       }
     },
     // CSS Sourcemaps off by default because relative paths are "buggy"

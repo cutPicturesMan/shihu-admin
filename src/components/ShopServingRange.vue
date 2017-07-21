@@ -1,7 +1,7 @@
 <template>
   <div class="">
     <Form-item
-      :prop="'openingTimes.' + index + '.ranges.' + rangeIndex + '.time'"
+      :prop="'serving_time.' + index + '.ranges.' + rangeIndex + '.time'"
       :rules="{required: true, type: 'array', length: 2, message: '营业时间不能为空', trigger: 'blur'}">
       <Time-picker confirm :value="range.time" format="HH:mm" type="timerange" placement="bottom-end" placeholder="选择一天的营业区间" style="width: 168px" @on-change="changeOpeningRange"></Time-picker>
     </Form-item>

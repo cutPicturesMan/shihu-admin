@@ -1,13 +1,13 @@
-@import '../base/_mixin.scss';				
+@import '../base/_mixin.scss';
 @import '../base/_variable.scss';			// 全局变量
 
 // 按钮
 .app-btn{
 	line-height: 2.5;
-	font-size:fsrem(32px);
+	font-size: 32px;
 	text-align: center;
-	padding:0 rem(34px);
-	border-radius: rem(8px);
+	padding:0 34px;
+	border-radius:  8px;
 	box-sizing:border-box;
 	border:1px solid rgba(0, 0, 0, 0.1);
 	background-color: #fff;
@@ -20,10 +20,10 @@
 
 	&.mini{
 		line-height: 2.3;
-		font-size:fsrem(28px);
+		font-size: 28px;
 		display: inline-block;
 	}
-	
+
 	&.app-btn-disabled{
 		color:#999;
 		background-color: #eee;
