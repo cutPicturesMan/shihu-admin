@@ -1,27 +1,80 @@
+import iView from 'iview';
+import axios from 'axios';
+import configMap from '@/assets/js/config.js';
 import * as type from '../mutation-types';
 
 export default {
+  namespaced: true,
   state: {
-    StoreList: []
+    // 需要修改的商品
+    item: {},
+    // 商品列表
+    list: []
   },
   mutations: {
-    [type.SET_SHOP_ID] (state, id) {
-      console.log('2222222222');
+    // 设置需要修改的商家
+    [type.SET_SHOP_ITEM] (state, item = {}) {
+      state.item = item;
+    },
+    // 设置商家列表
+    [type.SET_SHOP_LIST] (state, payload) {
+      state.list = payload;
     }
   },
   actions: {
-    [type.GET_SHOP_LIST] (state) {
-      console.log(111);
+    // 获取商家列表
+    async getListData ({commit}, payload) {
+      commit('OPEN_SPIN', null, {root: true});
+
+      await axios.get(configMap.shop)
+        .then((res) => {
+          commit('CLOSE_SPIN', null, {root: true});
+          // 如果出错了
+          if (res.data.error) {
+            iView.Message.error(res.data.error.message);
+          } else {
+            // 设置商家分类列表
+            commit(type.SET_SHOP_LIST, res.data.result);
+          }
+        })
+        .catch((e) => {
+          commit('CLOSE_SPIN', null, {root: true});
+          iView.Message.error('获取商家列表失败：' + e);
+        });
     },
-    aaa (context, payload) {
-      console.log('-------------');
+    // 新增/更新一条商家数据
+    async createOrUpdateItem ({commit, dispatch}, payload) {
+      commit('OPEN_SPIN', null, {root: true});
+      let url = '';
+      let q = null;
+
       console.log(payload);
-      return new Promise((resolve, reject) => {
-        reject();
-      });
-    },
-    bbb () {
-      console.log('***');
+
+      // 如果id存在，表示是修改
+      if (payload._id) {
+        url = `${configMap.shop}/${payload._id}`;
+        q = axios.put(url, payload);
+      } else {
+        // 否则，表示新增
+        url = configMap.shop;
+        q = axios.post(url, payload);
+      }
+
+      await q.then((res) => {
+        commit('CLOSE_SPIN', null, {root: true});
+        // 失败
+        if (res.data.error) {
+          iView.Message.error(res.data.error.message);
+        } else {
+          iView.Message.success('恭喜你，新增成功');
+          // 新增/更新成功，刷新数据
+          dispatch('getListData');
+        }
+      })
+        .catch((e) => {
+          commit('CLOSE_SPIN', null, {root: true});
+          iView.Message.error('操作失败：' + e);
+        });
     }
   }
 };

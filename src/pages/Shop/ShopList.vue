@@ -23,6 +23,7 @@
 <script type="text/ecmascript-6">
   import DateTimePicker from '@/components/Public/DateTimePicker.vue';
   import shopCreateOrUpdate from './shopCreateOrUpdate.vue';
+  import { mapState, mapActions } from 'Vuex';
 
   export default {
     data () {
@@ -144,7 +145,9 @@
         ]
       };
     },
+    computed: mapState('Shop', ['item', 'list']),
     methods: {
+      ...mapActions('Shop', ['createOrUpdateItem']),
       show (index) {
         this.$Modal.info({
           title: '用户信息',

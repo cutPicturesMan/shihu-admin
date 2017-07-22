@@ -14,7 +14,7 @@ export default {
   getters: {},
   mutations: {
     // 设置需要修改的商家分类id
-    [type.SET_SHOP_CATEGORY_ID] (state, id = '') {
+    [type.SET_SHOP_CATEGORY_ITEM] (state, id = '') {
       state.id = id;
     },
     // 设置商家分类列表
@@ -69,7 +69,7 @@ export default {
           if (res.data.result === 1) {
             dispatch('getListData');
             commit(type.CLOSE_SUB_VIEW, null, {root: true});
-            commit(type.SET_SHOP_CATEGORY_ID);
+            commit(type.SET_SHOP_CATEGORY_ITEM);
 
             iView.Message.success(res.data.msg);
           } else {

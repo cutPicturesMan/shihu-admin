@@ -1,6 +1,6 @@
 let configMap = {
   // 店铺列表
-  shopList: '/admin/shop/',
+  shop: '/admin/shop/',
   // 店铺分类
   shopCategory: '/admin/shop/category',
   // 店铺分类 - 名称是否唯一

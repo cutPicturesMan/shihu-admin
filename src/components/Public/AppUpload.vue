@@ -1,8 +1,8 @@
 <template>
   <div class="">
-    <div class="demo-upload-list" v-for="item in uploadList">
+    <div class="demo-upload-list" v-for="(item, index) in uploadList">
       <template v-if="item.status === 'finished'">
-        <img :src="item.thumb_url">
+        <img :src="'http://localhost:3000/' + item.thumb_url">
         <div class="demo-upload-list-cover">
           <Icon type="ios-eye-outline" @click.native="handleView(item.url)"></Icon>
           <Icon type="ios-trash-outline" @click.native="handleRemove(item)"></Icon>
@@ -15,7 +15,7 @@
     <Upload
       ref="upload"
       action="upload/"
-      name="ImgList"
+      name="img_list"
       :max-size="5120"
       :format="['jpg','jpeg','png']"
       :show-upload-list="false"
@@ -24,27 +24,40 @@
       :on-error="handleError"
       :on-format-error="handleFormatError"
       :on-exceeded-size="handleMaxSize"
-      multiple
+      :multiple="isMultiple"
       type="drag"
       style="display: inline-block;width:58px;">
       <div style="width: 58px;height:58px;line-height: 58px;">
         <Icon type="camera" size="20"></Icon>
       </div>
     </Upload>
-    <Modal title="查看图片" v-model="visible">
-      <img :src="showUrl" v-if="visible" style="width: 100%">
+    <Modal class="upload-img-prompt" title="查看图片" v-model="visible">
+      <img :src="'http://localhost:3000/' + showUrl" v-if="visible" style="width: 100%">
     </Modal>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
   export default {
+    props: {
+      // 上传图片数量
+      imgLength: {
+        type: Number,
+        default: 8
+      }
+    },
     data () {
       return {
         showUrl: '',
         visible: false,
         uploadList: []
       };
+    },
+    computed: {
+      // 如果上传图片数量大于一张，表示upload是multiple的
+      isMultiple () {
+        return this.imgLength > 1;
+      }
     },
     methods: {
       handleView (url) {
@@ -55,15 +68,15 @@
       handleRemove (file) {
         const fileList = this.$refs.upload.fileList;
         this.$refs.upload.fileList.splice(fileList.indexOf(file), 1);
+        this.$emit('upload-delete', fileList);
       },
       // 文件上传成功
       handleSuccess (res, file, fileList) {
-        console.log('-------------');
-        console.log(file);
-        console.log(res);
-        console.log(fileList);
-        file.url = 'http://localhost:3000/' + res.result[0].url;
-        file.thumb_url = 'http://localhost:3000/' + res.result[0].thumb_url;
+        console.log(res.result[0]);
+        file.url = res.result[0].url;
+        file.thumb_url = res.result[0].thumb_url;
+        // 向上传递图片地址列表对象
+        this.$emit('upload-success', fileList);
       },
       // 文件上传失败
       handleError (res, file) {
@@ -85,12 +98,10 @@
         });
       },
       handleBeforeUpload () {
-        console.log('++++++++++++++++');
-        console.log(this.uploadList);
-        const check = this.uploadList.length < 8;
+        const check = this.uploadList.length < this.imgLength;
         if (!check) {
           this.$Notice.warning({
-            title: '最多只能上传 8 张图片。'
+            title: '最多只能上传 ' + this.imgLength + ' 张图片。'
           });
         }
         return check;
@@ -103,6 +114,12 @@
 </script>
 
 <style rel="stylesheet/scss"  lang="scss" type="text/scss">
+  .upload-img-prompt{
+    .ivu-modal-mask,
+    .ivu-modal-wrap{
+      z-index: 2000;
+    }
+  }
   .demo-upload-list {
     display: inline-block;
     width: 60px;

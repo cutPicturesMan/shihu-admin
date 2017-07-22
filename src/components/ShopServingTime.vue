@@ -77,13 +77,13 @@
           long
           type="dashed"
           @click="addServingTime()"
-          icon="plus-round">新增分段营业时间
+          icon="plus-round">新增营业时间
         </Button>
         </Col>
         <Col span="12" offset="1">
         <span class="text-stable">
             <Icon type="information-circled"></Icon>
-            如果需要按星期区分营业时间，请点击“新增分段营业时间”，例如：周二休息，周一、周三周四周五13:00-20:00营业，周六周日10:00-22:00营业
+            如果需要按星期区分营业时间，请点击“新增营业时间”，例如：周一~周五10:00-20:00营业，周六周日08:00-22:00营业
           </span>
         </Col>
       </Row>
@@ -158,7 +158,7 @@
       addServingTime () {
         this.form.serving_time.push({
           ranges: [{
-            time: []
+            time: ['00:00', '23:55']
           }],
           day: []
         });

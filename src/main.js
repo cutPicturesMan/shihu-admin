@@ -19,5 +19,12 @@ new Vue({
   router,
   store,
   template: '<App/>',
-  components: {App}
+  components: {App},
+  mounted () {
+    // message提示框消失时间设为5秒
+    this.$Message.config({
+      duration: 5
+    });
+    console.log('完毕');
+  }
 });
