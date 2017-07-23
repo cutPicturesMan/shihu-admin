@@ -8,6 +8,7 @@ import ProductCategory from './modules/ProductCategory';
 Vue.use(Vuex);
 
 export default new Vuex.Store({
+  strict: process.env.NODE_ENV !== 'production',
   state: {
     // 加载框开关
     spinToggle: false,

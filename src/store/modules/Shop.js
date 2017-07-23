@@ -7,15 +7,19 @@ import * as type from '../mutation-types';
 export default {
   namespaced: true,
   state: {
-    // 需要修改的商品
+    // 需要修改的店铺
     item: {},
-    // 商品列表
+    // 店铺列表
     list: [],
+    // 店铺总数
+    total: 0,
     // 查询字符串
-    searchObj: {
+    query: {
       name: '',
       date_from: '',
-      date_to: ''
+      date_to: '',
+      page: 1,
+      limit: 10
     }
   },
   mutations: {
@@ -26,6 +30,14 @@ export default {
     // 设置商家列表
     [type.SET_SHOP_LIST] (state, payload) {
       state.list = payload;
+    },
+    // 设置商家总数
+    [type.SET_SHOP_TOTAL] (state, payload) {
+      state.total = payload;
+    },
+    // 修改查询字符串
+    [type.UPDATE_SHOP_QUERY] (state, payload) {
+      Object.assign(state.query, payload);
     }
   },
   actions: {
@@ -52,7 +64,8 @@ export default {
     },
     // 获取商家列表
     async getListData ({state, commit}, payload) {
-      let url = configMap.shop + utils.toParams(state.searchObj);
+      console.log(state.query);
+      let url = configMap.shop + utils.toParams(state.query);
       commit('OPEN_SPIN', null, {root: true});
       await axios.get(url)
         .then(res => {
@@ -61,8 +74,9 @@ export default {
           if (res.data.error) {
             iView.Message.error(res.data.error.message);
           } else {
-            // 设置商家分类列表
-            commit(type.SET_SHOP_LIST, res.data.result);
+            // 设置商家列表
+            commit(type.SET_SHOP_LIST, res.data.result.rows);
+            commit(type.SET_SHOP_TOTAL, res.data.result.total);
           }
         }, e => {
           commit('CLOSE_SPIN', null, {root: true});
