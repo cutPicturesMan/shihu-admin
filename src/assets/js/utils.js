@@ -1,35 +1,60 @@
 const utils = {
-  // 将utc日期（2017-06-19T15:44:53.396Z）格式化为年月日格式（2017-06-19）
-  // @time utc日期
-  formatToYMD (time = new Date()) {
-    time = new Date(time);
-    let year = time.getFullYear();
-    let month = time.getMonth();
-    let date = time.getDate();
+  /**
+   * 将对象转为查询字符串
+   * @param obj 对象
+   * @returns {string}
+   */
+  toParams (obj = {}) {
+    if (typeof obj !== 'object') {
+      throw new Error('请传入一个对象');
+    }
 
-    month = month.toString().length === 1 ? `0${month}` : month;
-    date = date.toString().length === 1 ? `0${date}` : date;
+    let params = '';
+    Object.keys(obj).forEach(key => {
+      if (obj[key]) {
+        params += `${key}=${obj[key]}&`;
+      }
+    });
 
-    return `${year}-${month}-${date}`;
+    // 如果转换的查询字符串有值，则在行首添加'?'，去掉行位的'&'
+    if (params.length > 0) {
+      params = '?' + params;
+      params = params.slice(0, -1);
+    }
+
+    console.log(params);
+
+    return params;
   },
-  // 将utc日期（2017-06-19T15:44:53.396Z）格式化为时分秒格式（23:44:53）
-  // @time utc日期
-  formatToHMS (time = new Date()) {
-    time = new Date(time);
-    let hour = time.getHours();
-    let minute = time.getMinutes();
-    let second = time.getSeconds();
+  /**
+   * 将时间戳格式化为时间 '2017-05-26 09:06:03'
+   * @param time 日期，默认为今天
+   * @param format 格式化后的排版
+   * @returns {string}
+   */
+  formatDate (time = new Date(), format = 'YYYY-MM-DD HH:mm:ss') {
+    var obj = {
+      YYYY: time.getFullYear(),
+      MM: ('0' + (time.getMonth() + 1)).slice(-2),
+      DD: ('0' + time.getDate()).slice(-2),
+      HH: ('0' + time.getHours()).slice(-2),
+      mm: ('0' + time.getMinutes()).slice(-2),
+      ss: ('0' + time.getSeconds()).slice(-2),
+      w: ['日', '一', '二', '三', '四', '五', '六'][time.getDay()],
+      YY: ('' + time.getFullYear()).slice(-2),
+      M: time.getMonth() + 1,
+      D: time.getDate(),
+      H: time.getHours(),
+      m: time.getMinutes(),
+      s: time.getSeconds()
+    };
 
-    hour = hour.toString().length === 1 ? `0${hour}` : hour;
-    minute = minute.toString().length === 1 ? `0${minute}` : minute;
-    second = second.toString().length === 1 ? `0${second}` : second;
+    // 循环错误对象的键组成的数组
+    Object.keys(obj).forEach((value) => {
+      format = format.replace(value, obj[value]);
+    });
 
-    return `${hour}:${minute}:${second}`;
-  },
-  // 将utc日期（2017-06-19T15:44:53.396Z）格式化为年月日 + 时分秒格式（2017-06-19 23:44:53）
-  // @time utc日期
-  formatDate (time) {
-    return `${this.formatToYMD(time)} ${this.formatToHMS(time)}`;
+    return format;
   }
 };
 

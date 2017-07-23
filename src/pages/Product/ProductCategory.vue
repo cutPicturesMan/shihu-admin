@@ -26,8 +26,8 @@
         </Row>
       </Form-item>
       <Form-item>
-        <Button type="primary" :loading="searchLoading" @click="search">
-          <span v-if="!searchLoading">查询</span>
+        <Button type="primary" :loading="isSearching" @click="search">
+          <span v-if="!isSearching">查询</span>
           <span v-else>正在查询中...</span>
         </Button>
       </Form-item>
@@ -75,7 +75,7 @@
 
       return {
         // 是否正在查询中
-        searchLoading: false,
+        isSearching: false,
         // 是否正在新增或者修改中
         createOrUpdateLoading: false,
         // 是否显示新增或者修改弹窗
@@ -178,7 +178,7 @@
       ...mapActions('ProductCategory', ['getListData', 'createOrUpdateItem']),
       // 查询商品
       search () {
-        this.searchLoading = true;
+        this.isSearching = true;
         this.getListData();
       },
       // 新增、修改商家分类

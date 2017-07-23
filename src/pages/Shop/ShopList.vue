@@ -5,12 +5,34 @@
         <Button type="text" shape="circle" icon="plus-round" @click="createOrUpdateModelToggle = true">新增</Button>
         <Button type="text" shape="circle" icon="edit">修改</Button>
         <Button type="text" shape="circle" icon="android-delete">删除</Button>
-        <Button type="text" shape="circle" icon="android-refresh">刷新</Button>
+        <Button type="text" shape="circle" icon="android-refresh" @click="getListData">刷新</Button>
         <Button type="text" shape="circle" icon="close-circled">取消选择</Button>
       </Button-group>
     </div>
-    <DateTimePicker class="mb15"></DateTimePicker>
-    <Table class="list-table mb15" border :columns="listColumns" :data="listData"></Table>
+    <Form :model="searchObj" label-position="left" :label-width="60" inline>
+      <Form-item label="店铺名称">
+        <Input v-model="searchObj.name" placeholder="店铺名称"></Input>
+      </Form-item>
+      <Form-item label="创建日期">
+        <Row>
+          <Col span="11">
+          <Date-picker type="date" placeholder="起始日期" v-model="searchObj.date_from"></Date-picker>
+          </Col>
+          <Col span="2" style="text-align: center">
+          -</Col>
+          <Col span="11">
+          <Date-picker type="date" placeholder="结束日期" v-model="searchObj.date_to"></Date-picker>
+          </Col>
+        </Row>
+      </Form-item>
+      <Form-item>
+        <Button type="primary" :loading="isSearching" @click="getListData">
+          <span v-if="!isSearching">查询</span>
+          <span v-else>正在查询中...</span>
+        </Button>
+      </Form-item>
+    </Form>
+    <Table class="list-table mb15" border :columns="listColumns" :data="list"></Table>
     <div class="page-container">
       <Page class="page-panel" :total="100" show-elevator show-total></Page>
     </div>
@@ -21,18 +43,20 @@
   </div>
 </template>
 <script type="text/ecmascript-6">
-  import DateTimePicker from '@/components/Public/DateTimePicker.vue';
   import shopCreateOrUpdate from './shopCreateOrUpdate.vue';
+  import utils from '@/assets/js/utils.js';
   import { mapState, mapActions } from 'Vuex';
 
   export default {
     data () {
       return {
+        // 是否正在查询中
+        isSearching: false,
         // 是否显示新增或者修改弹窗
         createOrUpdateModelToggle: false,
         listColumns: [
           {
-            title: '商家名称',
+            title: '店铺名称',
             key: 'name',
             className: 'merchant-name',
             render: (h, params) => {
@@ -46,7 +70,7 @@
                     'vertical-align': 'middle'
                   },
                   attrs: {
-                    src: 'http://img1.skqkw.cn:888/2014/11/20/12/gaygzb4mamk-72662.jpg'
+                    src: 'http://localhost:3000/' + params.row.logo_url.thumb_url
                   }
                 }),
                 h('strong', params.row.name)
@@ -54,24 +78,30 @@
             }
           },
           {
-            title: '商家分类',
-            key: 'type'
+            title: '店铺分类',
+            key: 'category'
           },
           {
             title: '门店地址',
-            key: 'address'
+            key: 'address_text'
           },
           {
             title: '简介',
-            key: 'info'
+            key: 'description'
           },
           {
             title: '创建时间',
-            key: 'create'
+            key: 'createdAt',
+            render: (h, params) => {
+              return h('div', utils.formatDate(new Date(params.row.createdAt), 'YYYY-MM-DD HH:mm:ss'));
+            }
           },
           {
             title: '最近更新',
-            key: 'update'
+            key: 'updatedAt',
+            render: (h, params) => {
+              return h('div', utils.formatDate(new Date(params.row.updatedAt), 'YYYY-MM-DD HH:mm:ss'));
+            }
           },
           {
             title: '操作',
@@ -108,46 +138,12 @@
               ]);
             }
           }
-        ],
-        listData: [
-          {
-            name: '王小明',
-            type: 18,
-            address: '北京市朝阳区芍药居',
-            info: '药店啊啊啊啊啊啊',
-            create: '2017-06-03 12:00:00',
-            update: '2017-06-03 15:40:00'
-          },
-          {
-            name: '张小刚',
-            type: 25,
-            address: '北京市海淀区西二旗',
-            info: '药店啊啊啊啊啊啊',
-            create: '2017-06-03 12:00:00',
-            update: '2017-06-03 15:40:00'
-          },
-          {
-            name: '李小红',
-            type: 30,
-            address: '上海市浦东新区世纪大道',
-            info: '药店啊啊啊啊啊啊',
-            create: '2017-06-03 12:00:00',
-            update: '2017-06-03 15:40:00'
-          },
-          {
-            name: '周小伟',
-            type: 26,
-            address: '深圳市南山区深南大道',
-            info: '药店啊啊啊啊啊啊',
-            create: '2017-06-03 12:00:00',
-            update: '2017-06-03 15:40:00'
-          }
         ]
       };
     },
-    computed: mapState('Shop', ['item', 'list']),
+    computed: mapState('Shop', ['item', 'list', 'searchObj']),
     methods: {
-      ...mapActions('Shop', ['createOrUpdateItem']),
+      ...mapActions('Shop', ['test', 'getListData', 'createOrUpdateItem']),
       show (index) {
         this.$Modal.info({
           title: '用户信息',
@@ -156,6 +152,14 @@
       },
       remove (index) {
         this.data6.splice(index, 1);
+      },
+      // 刷新
+      refresh () {
+        this.test('ttt').then((res) => {
+          console.log('子级同意' + res);
+        }, (res) => {
+          console.log('子级拒绝' + res);
+        });
       },
       // 提交表单
       submit () {
@@ -170,7 +174,6 @@
       }
     },
     components: {
-      DateTimePicker,
       shopCreateOrUpdate
     },
     created () {

@@ -1,9 +1,11 @@
 <template>
-  <div class="app-spin">
-    <Spin fix v-if="spinToggle">
-      <Icon type="load-c" size=18 class="demo-spin-icon-load"></Icon>
-      <div>Loading</div>
-    </Spin>
+  <div>
+    <div class="app-spin" v-if="spinToggle">
+      <Spin fix>
+        <Icon type="load-c" size=18 class="demo-spin-icon-load"></Icon>
+        <div>Loading</div>
+      </Spin>
+    </div>
   </div>
 </template>
 

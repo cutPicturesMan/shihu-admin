@@ -1,5 +1,6 @@
 import iView from 'iview';
 import axios from 'axios';
+import utils from '@/assets/js/utils.js';
 import configMap from '@/assets/js/config.js';
 import * as type from '../mutation-types';
 
@@ -9,7 +10,13 @@ export default {
     // 需要修改的商品
     item: {},
     // 商品列表
-    list: []
+    list: [],
+    // 查询字符串
+    searchObj: {
+      name: '',
+      date_from: '',
+      date_to: ''
+    }
   },
   mutations: {
     // 设置需要修改的商家
@@ -22,12 +29,33 @@ export default {
     }
   },
   actions: {
-    // 获取商家列表
-    async getListData ({commit}, payload) {
-      commit('OPEN_SPIN', null, {root: true});
+    test ({commit}, payload) {
+      let q = new Promise((resolve, reject) => {
+        console.log(payload);
+        setTimeout(() => {
+          resolve('first');
+        }, 2000);
+      });
 
-      await axios.get(configMap.shop)
-        .then((res) => {
+      return q.then((res) => {
+        console.log(res);
+
+        return Promise.reject('second');
+      }).then(() => {}, (res) => {
+        console.log('接收：' + res);
+        return Promise.reject('catch');
+      })
+        .catch(() => {
+          console.log('致命错误');
+          return Promise.reject('catch');
+        });
+    },
+    // 获取商家列表
+    async getListData ({state, commit}, payload) {
+      let url = configMap.shop + utils.toParams(state.searchObj);
+      commit('OPEN_SPIN', null, {root: true});
+      await axios.get(url)
+        .then(res => {
           commit('CLOSE_SPIN', null, {root: true});
           // 如果出错了
           if (res.data.error) {
@@ -36,10 +64,11 @@ export default {
             // 设置商家分类列表
             commit(type.SET_SHOP_LIST, res.data.result);
           }
-        })
-        .catch((e) => {
+        }, e => {
           commit('CLOSE_SPIN', null, {root: true});
           iView.Message.error('获取商家列表失败：' + e);
+
+          return Promise.reject();
         });
     },
     // 新增/更新一条商家数据
@@ -60,21 +89,22 @@ export default {
         q = axios.post(url, payload);
       }
 
-      await q.then((res) => {
+      await q.then(res => {
         commit('CLOSE_SPIN', null, {root: true});
-        // 失败
+        // 如果写入出错
         if (res.data.error) {
           iView.Message.error(res.data.error.message);
+          return Promise.reject();
         } else {
           iView.Message.success('恭喜你，新增成功');
-          // 新增/更新成功，刷新数据
+          // 刷新数据
           dispatch('getListData');
         }
-      })
-        .catch((e) => {
-          commit('CLOSE_SPIN', null, {root: true});
-          iView.Message.error('操作失败：' + e);
-        });
+      }, e => {
+        commit('CLOSE_SPIN', null, {root: true});
+        iView.Message.error('操作失败：' + e);
+        return Promise.reject();
+      });
     }
   }
 };

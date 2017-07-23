@@ -277,8 +277,11 @@
             if (servingLength !== 7) {
               return this.$Message.error('营业时间段未全部选择!');
             }
-            this.createOrUpdateItem(this.form);
-            this.$Message.success('提交成功!');
+
+            // 提交
+            this.createOrUpdateItem(this.form).then(() => {
+              this.close();
+            }, res => {});
           } else {
             this.$Message.error('表单验证失败!');
           }
