@@ -7,8 +7,10 @@ import * as type from '../mutation-types';
 export default {
   namespaced: true,
   state: {
-    // 需要修改的店铺
-    item: {},
+    // 选中的店铺列表
+    // 如果是修改店铺，则数组中只能有一个元素
+    // 如果是批量删除，则数组中可以有多个元素
+    items: [],
     // 店铺列表
     list: [],
     // 店铺总数
@@ -24,8 +26,9 @@ export default {
   },
   mutations: {
     // 设置需要修改的商家
-    [type.SET_SHOP_ITEM] (state, item = {}) {
-      state.item = item;
+    [type.SET_SHOP_ITEMS] (state, items = []) {
+      state.items = items;
+      console.log(state.items);
     },
     // 设置商家列表
     [type.SET_SHOP_LIST] (state, payload) {
@@ -119,6 +122,48 @@ export default {
         iView.Message.error('操作失败：' + e);
         return Promise.reject();
       });
+    },
+    removeItems ({state, commit, dispatch}) {
+      // 如果长度为0
+      if (state.items.length === 0) {
+        iView.Message.error('请至少选择一个要删除的店铺');
+      } else {
+        iView.Modal.confirm({
+          title: '删除店铺',
+          content: `将要删除${state.items.length}个店铺，该操作不可逆，请慎重选择`,
+          onOk: async () => {
+            commit('OPEN_SPIN', null, {root: true});
+
+            // 提取出每个item的_id
+            let items = [];
+            state.items.forEach((item) => {
+              items.push({
+                _id: item._id
+              });
+            });
+
+            console.log(items);
+
+            await axios.delete(configMap.shop, items)
+              .then(res => {
+                commit('CLOSE_SPIN', null, {root: true});
+                // 如果出错了
+                if (res.data.error) {
+                  iView.Message.error(res.data.error.message);
+                } else {
+                  // 设置商家列表
+                  commit(type.SET_SHOP_LIST, res.data.result.rows);
+                  commit(type.SET_SHOP_TOTAL, res.data.result.total);
+                }
+              }, e => {
+                commit('CLOSE_SPIN', null, {root: true});
+                iView.Message.error('删除失败：' + e);
+
+                return Promise.reject();
+              });
+          }
+        });
+      }
     }
   }
 };

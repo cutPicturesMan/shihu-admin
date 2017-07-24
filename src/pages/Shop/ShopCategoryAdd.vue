@@ -22,7 +22,6 @@
         if (!value) {
           return callback(new Error('请输入商家分类'));
         }
-
         // 查询名称是否重复
         axios.post(configMap.storeCategoryName, {
           name: this.form.name

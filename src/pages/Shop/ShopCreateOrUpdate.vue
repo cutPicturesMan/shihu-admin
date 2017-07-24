@@ -189,10 +189,7 @@
           // 起送价
           deliver_amount: 20,
           // logo地址
-          logo_url: {
-            url: 'logo.png',
-            thumb_url: 'logo.png'
-          },
+          logo_url: null,
           // 店铺图片列表
           photo_list: [],
           // 店铺介绍

@@ -21,9 +21,9 @@ new Vue({
   template: '<App/>',
   components: {App},
   mounted () {
-    // message提示框消失时间设为5秒
+    // message提示框消失时间设为3秒
     this.$Message.config({
-      duration: 5
+      duration: 3
     });
     console.log('完毕');
   }
