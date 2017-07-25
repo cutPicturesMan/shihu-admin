@@ -32,7 +32,9 @@
       </div>
     </Upload>
     <Modal class="upload-img-prompt" title="查看图片" v-model="visible">
-      <img :src="'http://localhost:3000/' + showUrl" v-if="visible" style="width: 100%">
+      <transition name="fade">
+        <img :src="'http://localhost:3000/' + showUrl" v-if="visible" style="width: 100%">
+      </transition>
     </Modal>
   </div>
 </template>
@@ -44,6 +46,13 @@
       imgLength: {
         type: Number,
         default: 8
+      },
+      // 已经上传的图片
+      imgList: {
+        type: Array,
+        default () {
+          return [];
+        }
       }
     },
     data () {
@@ -72,7 +81,6 @@
       },
       // 文件上传成功
       handleSuccess (res, file, fileList) {
-        console.log(res.result[0]);
         file.url = res.result[0].url;
         file.thumb_url = res.result[0].thumb_url;
         // 向上传递图片地址列表对象
@@ -108,15 +116,16 @@
       }
     },
     mounted () {
+      this.$refs.upload.fileList = this.imgList;
       this.uploadList = this.$refs.upload.fileList;
     }
   };
 </script>
 
-<style rel="stylesheet/scss"  lang="scss" type="text/scss">
-  .upload-img-prompt{
+<style rel="stylesheet/scss" lang="scss" type="text/scss">
+  .upload-img-prompt {
     .ivu-modal-mask,
-    .ivu-modal-wrap{
+    .ivu-modal-wrap {
       z-index: 2000;
     }
   }
@@ -134,12 +143,10 @@
     box-shadow: 0 1px 1px rgba(0, 0, 0, .2);
     margin-right: 4px;
   }
-
   .demo-upload-list img {
     width: 100%;
     height: 100%;
   }
-
   .demo-upload-list-cover {
     display: none;
     position: absolute;
@@ -149,11 +156,9 @@
     right: 0;
     background: rgba(0, 0, 0, .6);
   }
-
   .demo-upload-list:hover .demo-upload-list-cover {
     display: block;
   }
-
   .demo-upload-list-cover i {
     color: #fff;
     font-size: 20px;

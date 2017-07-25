@@ -25,6 +25,5 @@ new Vue({
     this.$Message.config({
       duration: 3
     });
-    console.log('完毕');
   }
 });

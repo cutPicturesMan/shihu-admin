@@ -22,8 +22,6 @@ const utils = {
       params = params.slice(0, -1);
     }
 
-    console.log(params);
-
     return params;
   },
   /**

@@ -2,9 +2,9 @@
   <div>
     <div class="ml-15">
       <Button-group class="pb15">
-        <Button type="text" shape="circle" icon="plus-round" @click="createOrUpdateModelToggle = true">新增</Button>
+        <Button type="text" shape="circle" icon="plus-round" @click="create">新增</Button>
         <Button type="text" shape="circle" icon="edit">修改</Button>
-        <Button type="text" shape="circle" icon="android-delete" @click="remove">删除</Button>
+        <Button type="text" shape="circle" icon="android-delete" @click="deleteItems">批量删除</Button>
         <Button type="text" shape="circle" icon="android-refresh" @click="getListData">刷新</Button>
       </Button-group>
     </div>
@@ -48,7 +48,7 @@
           },
           {
             title: '店铺logo',
-            key: 'logo_url',
+            key: 'logo',
             className: 'shop-name',
             render: (h, params) => {
               return h('Img', {
@@ -60,7 +60,7 @@
                   'vertical-align': 'middle'
                 },
                 attrs: {
-                  src: 'http://localhost:3000/' + params.row.logo_url.thumb_url
+                  src: 'http://localhost:3000/' + params.row.logo.thumb_url
                 }
               });
             }
@@ -108,7 +108,8 @@
                   },
                   on: {
                     click: () => {
-                      this.show(params.index);
+                      this.SET_SHOP_UPDATE_ITEM(params.row);
+                      this.createOrUpdateModelToggle = true;
                     }
                   }
                 }, '修改'),
@@ -119,7 +120,7 @@
                   },
                   on: {
                     click: () => {
-                      //                      let shop = params.row;
+                      this.deleteItem(params.row);
                     }
                   }
                 }, '删除')
@@ -131,15 +132,20 @@
     },
     computed: mapState('Shop', ['items', 'list']),
     methods: {
-      ...mapMutations('Shop', ['SET_SHOP_ITEMS']),
-      ...mapActions('Shop', ['test', 'getListData', 'createOrUpdateItem', 'removeItems']),
+      ...mapMutations('Shop', ['SET_SHOP_UPDATE_ITEM', 'SET_SHOP_DELETE_ITEMS']),
+      ...mapActions('Shop', ['test',
+        'getListData',
+        'createOrUpdateItem',
+        'deleteItem',
+        'deleteItems'
+      ]),
+      create () {
+        this.SET_SHOP_UPDATE_ITEM({});
+        this.createOrUpdateModelToggle = true;
+      },
       // 表格选择
       select (selection) {
-        this.SET_SHOP_ITEMS(selection);
-      },
-      // 删除
-      remove () {
-        console.log(this.removeItems());
+        this.SET_SHOP_DELETE_ITEMS(selection);
       }
     },
     components: {

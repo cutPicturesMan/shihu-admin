@@ -6,7 +6,8 @@
       @on-ok="submit"
       @on-cancel="close">
       <p slot="header">新增店铺</p>
-      <Form ref="form" :model="form" :rules="rule" :label-width="180">
+      <transition name="fade">
+        <Form ref="form" :model="form" :rules="rule" :label-width="180">
         <Form-item label="门店名称" prop="name">
           <Row>
             <Col span="7">
@@ -92,9 +93,11 @@
             </Col>
           </Row>
         </Form-item>
-        <Form-item label="店铺logo" prop="logo_url">
+        <Form-item label="店铺logo" prop="logo">
           <AppUpload
+            v-if="createOrUpdateModelToggle"
             :imgLength="1"
+            :imgList="form.logo ? [form.logo] : []"
             @upload-success="setLogoUrl"
             @upload-delete="setLogoUrl"></AppUpload>
           <span class="text-stable">
@@ -104,7 +107,9 @@
         </Form-item>
         <Form-item label="门店图片">
           <AppUpload
+            v-if="createOrUpdateModelToggle"
             :imgLength="8"
+            :imgList="form.photo_list"
             @upload-success="setPhotoList"
             @upload-delete="setPhotoList"></AppUpload>
           <span class="text-stable">
@@ -127,6 +132,7 @@
           </Row>
         </Form-item>
       </Form>
+      </transition>
       <div slot="footer">
         <Button type="ghost" @click="close">取消</Button>
         <Button type="primary" :loading="isLoading" @click="submit">
@@ -139,10 +145,51 @@
 </template>
 
 <script type="text/ecmascript-6">
+  import _ from 'lodash';
   import ShopServingTime from '@/components/ShopServingTime';
   import ShopPhoneList from '@/components/ShopPhoneList';
   import AppUpload from '@/components/Public/AppUpload';
-  import { mapActions } from 'Vuex';
+  import { mapState, mapActions } from 'Vuex';
+
+  // 表单默认值
+  let form = {
+    // 店铺名称
+    name: '测试1',
+    category: '1',
+    // 营业时间区间
+    serving_time: [{
+      // 每天分段营业时间
+      ranges: [{
+        time: ['00:00', '23:55']
+      }],
+      // 星期几
+      day: [1, 2, 3, 4, 5, 6, 7]
+    }],
+    // 店铺联系方式
+    phone_list: [{
+      phone: '15960210046'
+    }],
+    // 店铺整体营业状态，0店铺关闭，1店铺营业中
+    is_open: true,
+    // 是否品牌馆店铺
+    is_premium: true,
+    // 是否支持准时达
+    is_ontime: true,
+    // 店铺地址
+    address_text: '福建省厦门市观日路8号',
+    // 店铺经纬度
+    address_point: '118.176757,24.488012',
+    // 配送费
+    agent_fee: 5,
+    // 起送价
+    deliver_amount: 20,
+    // logo地址
+    logo: null,
+    // 店铺图片列表
+    photo_list: [],
+    // 店铺介绍
+    description: '新店开张，全场8折'
+  };
 
   export default {
     props: {
@@ -157,51 +204,39 @@
         // 是否正在新增或者修改中
         isLoading: false,
         // 需要提交的表单数据
-        form: {
-          // 店铺名称
-          name: '测试1',
-          category: '1',
-          // 营业时间区间
-          serving_time: [{
-            // 每天分段营业时间
-            ranges: [{
-              time: ['00:00', '23:55']
-            }],
-            // 星期几
-            day: [1, 2, 3, 4, 5, 6, 7]
-          }],
-          // 店铺联系方式
-          phone_list: [{
-            phone: '1'
-          }],
-          // 店铺整体营业状态，0店铺关闭，1店铺营业中
-          is_open: true,
-          // 是否品牌馆店铺
-          is_premium: true,
-          // 是否支持准时达
-          is_ontime: true,
-          // 店铺地址
-          address_text: '1',
-          // 店铺经纬度
-          address_point: '118.176757,24.488012',
-          // 配送费
-          agent_fee: 5,
-          // 起送价
-          deliver_amount: 20,
-          // logo地址
-          logo_url: null,
-          // 店铺图片列表
-          photo_list: [],
-          // 店铺介绍
-          description: ''
-        },
+        form: form,
         // 表单验证规则
         rule: {
           name: {required: true, message: '门店名称不能为空'},
           category: {required: true, message: '请选择商家分类'},
-          phone_list: {required: true, message: '门店电话不能为空'},
+          phone_list: {
+            required: true,
+            type: 'array',
+            message: '门店电话不能为空',
+            fields: {
+              0: {
+                type: 'string',
+                required: true
+              }
+            }
+          },
           serving_time: {required: true, type: 'array', message: '至少选择一个营业时间'},
-          logo_url: {required: true, type: 'object', message: '请上传一张店铺logo', trigger: 'blur'},
+          logo: {
+            required: true,
+            type: 'object',
+            fields: {
+              url: {
+                type: 'string',
+                required: true
+              },
+              thumb_url: {
+                type: 'string',
+                required: true
+              }
+            },
+            message: '请上传一张店铺logo',
+            trigger: 'blur'
+          },
           address_text: {required: true, message: '请填写门店地址'},
           address_point: {required: true, message: '请前往高德地图查询门店经纬度'},
           agent_fee: {required: true, message: '请填写配送费'},
@@ -223,6 +258,7 @@
         }]
       };
     },
+    computed: mapState('Shop', ['item']),
     methods: {
       ...mapActions('Shop', ['createOrUpdateItem']),
       // 关闭弹窗
@@ -238,7 +274,7 @@
       },
       // logo上传完毕
       setLogoUrl (fileList) {
-        this.form.logo_url = fileList[0] || null;
+        this.form.logo = fileList[0] || null;
       },
       // photo上传完毕
       setPhotoList (fileList) {
@@ -249,10 +285,10 @@
         this.$refs.form.validate((valid) => {
           // 如果表单验证通过，则发送ajax
           if (valid) {
-            let logoUrl = this.form.logo_url;
+            let logoUrl = this.form.logo;
             let photoList = [];
-            // 从logo_url中取出url、thumb_url字段
-            this.form.logo_url = {
+            // 从logo中取出url、thumb_url字段
+            this.form.logo = {
               url: logoUrl.url,
               thumb_url: logoUrl.thumb_url
             };
@@ -283,6 +319,25 @@
             this.$Message.error('表单验证失败!');
           }
         });
+      }
+    },
+    watch: {
+      item (newValue) {
+        console.log(newValue);
+        let keys = Object.keys(newValue);
+        // 如果有需要修改的商家
+        if (keys.length !== 0) {
+          let data = _.cloneDeep(newValue);
+          data.logo.status = 'finished';
+          data.photo_list.forEach(item => {
+            item.status = 'finished';
+          });
+          this.form = data;
+        } else {
+          this.form = form;
+        }
+        console.log(this.form);
+        console.log(_.cloneDeep(newValue));
       }
     },
     components: {

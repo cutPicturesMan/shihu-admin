@@ -145,8 +145,6 @@
       subViewShow () {
         // 设置商品分类id为''
         this.$store.commit('StoreCategory/SET_STORE_CATEGORY_ID');
-        // 显示页面
-        this.$store.commit('OPEN_SUB_VIEW');
       }
     },
     components: {

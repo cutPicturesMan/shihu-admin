@@ -39,14 +39,11 @@
       // 新增联系方式
       addPhone () {
         this.form.phone_list.push({
-          value: ''
+          phone: ''
         });
       },
       // 移除联系方式
       removePhone (index) {
-        if (this.form.phone_list.length === 1) {
-          return this.$Message.warning('至少填写一个门店电话');
-        }
         this.form.phone_list.splice(index, 1);
       }
     }

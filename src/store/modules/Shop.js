@@ -7,9 +7,9 @@ import * as type from '../mutation-types';
 export default {
   namespaced: true,
   state: {
-    // 选中的店铺列表
-    // 如果是修改店铺，则数组中只能有一个元素
-    // 如果是批量删除，则数组中可以有多个元素
+    // 需要修改的商家
+    item: {},
+    // 需要批量删除的商家
     items: [],
     // 店铺列表
     list: [],
@@ -25,11 +25,6 @@ export default {
     }
   },
   mutations: {
-    // 设置需要修改的商家
-    [type.SET_SHOP_ITEMS] (state, items = []) {
-      state.items = items;
-      console.log(state.items);
-    },
     // 设置商家列表
     [type.SET_SHOP_LIST] (state, payload) {
       state.list = payload;
@@ -41,6 +36,14 @@ export default {
     // 修改查询字符串
     [type.UPDATE_SHOP_QUERY] (state, payload) {
       Object.assign(state.query, payload);
+    },
+    // 设置需要修改的商家
+    [type.SET_SHOP_UPDATE_ITEM] (state, item = {}) {
+      state.item = item;
+    },
+    // 设置需要批量删除的商家
+    [type.SET_SHOP_DELETE_ITEMS] (state, items = []) {
+      state.items = items;
     }
   },
   actions: {
@@ -67,7 +70,6 @@ export default {
     },
     // 获取商家列表
     async getListData ({state, commit}, payload) {
-      console.log(state.query);
       let url = configMap.shop + utils.toParams(state.query);
       commit('OPEN_SPIN', null, {root: true});
       await axios.get(url)
@@ -92,6 +94,7 @@ export default {
     async createOrUpdateItem ({commit, dispatch}, payload) {
       commit('OPEN_SPIN', null, {root: true});
       let url = '';
+      let msg = '';
       let q = null;
 
       console.log(payload);
@@ -99,10 +102,12 @@ export default {
       // 如果id存在，表示是修改
       if (payload._id) {
         url = `${configMap.shop}/${payload._id}`;
+        msg = '恭喜你，修改成功';
         q = axios.put(url, payload);
       } else {
         // 否则，表示新增
         url = configMap.shop;
+        msg = '恭喜你，新增成功';
         q = axios.post(url, payload);
       }
 
@@ -113,7 +118,7 @@ export default {
           iView.Message.error(res.data.error.message);
           return Promise.reject();
         } else {
-          iView.Message.success('恭喜你，新增成功');
+          iView.Message.success(msg);
           // 刷新数据
           dispatch('getListData');
         }
@@ -123,43 +128,78 @@ export default {
         return Promise.reject();
       });
     },
-    removeItems ({state, commit, dispatch}) {
+    // 删除单个
+    deleteItem ({state, commit, dispatch}, payload) {
+      iView.Modal.confirm({
+        title: '删除店铺',
+        content: `将要删除店铺为：<strong class="text-error">${payload.name}</strong>，该操作不可逆，请慎重选择`,
+        onOk: () => {
+          commit('OPEN_SPIN', null, {root: true});
+
+          axios.delete(configMap.shop + payload._id)
+            .then(res => {
+              commit('CLOSE_SPIN', null, {root: true});
+              commit(type.SET_SHOP_DELETE_ITEMS, []);
+
+              // 如果出错了
+              if (res.data.error) {
+                iView.Message.error(res.data.error.message);
+              } else {
+                iView.Message.success(`恭喜你，成功删除了${res.data.result.n}条数据`);
+                // 刷新数据
+                dispatch('getListData');
+              }
+            })
+            .catch(e => {
+              commit('CLOSE_SPIN', null, {root: true});
+              iView.Message.error('删除失败：' + e);
+            });
+        }
+      });
+    },
+    // 批量删除
+    deleteItems ({state, commit, dispatch}, payload) {
       // 如果长度为0
       if (state.items.length === 0) {
         iView.Message.error('请至少选择一个要删除的店铺');
       } else {
+        let content = '';
+        let shops = '';
+        state.items.forEach((item) => {
+          shops += `<strong class="text-error">${item.name}</strong>、`;
+        });
+        content = `将要删除店铺为：${shops.slice(0, -1)}，该操作不可逆，请慎重选择`;
+
         iView.Modal.confirm({
           title: '删除店铺',
-          content: `将要删除${state.items.length}个店铺，该操作不可逆，请慎重选择`,
-          onOk: async () => {
+          content: content,
+          onOk: () => {
             commit('OPEN_SPIN', null, {root: true});
 
             // 提取出每个item的_id
             let items = [];
+
             state.items.forEach((item) => {
-              items.push({
-                _id: item._id
-              });
+              items.push(item._id);
             });
 
-            console.log(items);
-
-            await axios.delete(configMap.shop, items)
+            axios.post(configMap.shopDeleteBatch, items)
               .then(res => {
                 commit('CLOSE_SPIN', null, {root: true});
+                commit(type.SET_SHOP_DELETE_ITEMS, []);
+
                 // 如果出错了
                 if (res.data.error) {
                   iView.Message.error(res.data.error.message);
                 } else {
-                  // 设置商家列表
-                  commit(type.SET_SHOP_LIST, res.data.result.rows);
-                  commit(type.SET_SHOP_TOTAL, res.data.result.total);
+                  iView.Message.success(`恭喜你，成功删除了${res.data.result.n}条数据`);
+                  // 刷新数据
+                  dispatch('getListData');
                 }
-              }, e => {
+              })
+              .catch(e => {
                 commit('CLOSE_SPIN', null, {root: true});
                 iView.Message.error('删除失败：' + e);
-
-                return Promise.reject();
               });
           }
         });

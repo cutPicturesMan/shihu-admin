@@ -23,14 +23,6 @@ export default new Vuex.Store({
     // 关闭加载框
     [type.CLOSE_SPIN] (state) {
       state.spinToggle = false;
-    },
-    // 开启右侧弹出框
-    [type.OPEN_SUB_VIEW] (state) {
-      state.subViewToggle = true;
-    },
-    // 关闭右侧弹出框
-    [type.CLOSE_SUB_VIEW] (state) {
-      state.subViewToggle = false;
     }
   },
   modules: {

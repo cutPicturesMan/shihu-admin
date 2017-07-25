@@ -103,18 +103,18 @@
               <Submenu name="5">
                 <template slot="title">
                   <Icon type="locked" :size="iconSize"></Icon>
-                  <span class="submenu-title">权限管理</span>
+                  <span class="submenu-title">后台管理</span>
                 </template>
                 <Menu-item name="5-1">
-                  <router-link to="/analyze/shop" class="router-link">
-                    <Icon type="ios-people"></Icon>
-                    <span class="submenu-subtitle">管理员列表</span>
+                  <router-link to="/admin/auth" class="router-link">
+                    <Icon type="ios-list-outline"></Icon>
+                    <span class="submenu-subtitle">权限列表</span>
                   </router-link>
                 </Menu-item>
                 <Menu-item name="5-2">
-                  <router-link to="/analyze/shop" class="router-link">
-                    <Icon type="ios-list-outline"></Icon>
-                    <span class="submenu-subtitle">权限列表</span>
+                  <router-link to="/admin/manage" class="router-link">
+                    <Icon type="ios-people"></Icon>
+                    <span class="submenu-subtitle">管理员列表</span>
                   </router-link>
                 </Menu-item>
               </Submenu>
