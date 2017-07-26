@@ -68,7 +68,6 @@ export default {
           // 成功
           if (res.data.result === 1) {
             dispatch('getListData');
-            commit(type.CLOSE_SUB_VIEW, null, {root: true});
             commit(type.SET_SHOP_CATEGORY_ITEM);
 
             iView.Message.success(res.data.msg);

@@ -7,7 +7,9 @@ let configMap = {
   shopCategory: '/admin/shop/category',
   // 店铺分类 - 名称是否唯一
   shopCategoryName: '/admin/shop/categoryName',
-  productCategory: '/admin/product_category'
+  productCategory: '/admin/product_category',
+  // 栏目列表
+  menu: '/admin/menu/'
 };
 
-module.exports = configMap;
+export default configMap;

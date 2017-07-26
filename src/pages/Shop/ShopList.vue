@@ -20,7 +20,7 @@
 
     <!--新增/修改商家-->
     <ShopCreateOrUpdate
-      :createOrUpdateModelToggle.sync="createOrUpdateModelToggle"></ShopCreateOrUpdate>
+      :cuToggle.sync="cuToggle"></ShopCreateOrUpdate>
   </div>
 </template>
 <script type="text/ecmascript-6">
@@ -35,7 +35,7 @@
       return {
         // 删除
         // 是否显示新增或者修改弹窗
-        createOrUpdateModelToggle: false,
+        cuToggle: false,
         listColumns: [
           {
             type: 'selection',
@@ -109,7 +109,7 @@
                   on: {
                     click: () => {
                       this.SET_SHOP_UPDATE_ITEM(params.row);
-                      this.createOrUpdateModelToggle = true;
+                      this.cuToggle = true;
                     }
                   }
                 }, '修改'),
@@ -141,7 +141,7 @@
       ]),
       create () {
         this.SET_SHOP_UPDATE_ITEM({});
-        this.createOrUpdateModelToggle = true;
+        this.cuToggle = true;
       },
       // 表格选择
       select (selection) {

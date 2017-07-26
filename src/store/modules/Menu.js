@@ -7,70 +7,46 @@ import * as type from '../mutation-types';
 export default {
   namespaced: true,
   state: {
-    // 需要修改的商家
+    // 需要修改的栏目
     item: {},
-    // 需要批量删除的商家
+    // 需要批量删除的栏目
     items: [],
-    // 店铺列表
+    // 栏目列表
     list: [],
-    // 店铺总数
+    // 栏目总数
     total: 0,
     // 查询字符串
     query: {
-      name: '',
-      date_from: '',
-      date_to: '',
       page: 1,
       limit: 10
     }
   },
   mutations: {
-    // 设置商家列表
-    [type.SET_SHOP_LIST] (state, payload) {
+    // 设置栏目列表
+    [type.SET_MENU_LIST] (state, payload) {
       state.list = payload;
     },
-    // 设置商家总数
-    [type.SET_SHOP_TOTAL] (state, payload) {
+    // 设置栏目总数
+    [type.SET_MENU_TOTAL] (state, payload) {
       state.total = payload;
     },
     // 修改查询字符串
-    [type.UPDATE_SHOP_QUERY] (state, payload) {
+    [type.UPDATE_MENU_QUERY] (state, payload) {
       Object.assign(state.query, payload);
     },
-    // 设置需要修改的商家
-    [type.SET_SHOP_UPDATE_ITEM] (state, item = {}) {
+    // 设置需要修改的栏目
+    [type.SET_MENU_UPDATE_ITEM] (state, item = {}) {
       state.item = item;
     },
-    // 设置需要批量删除的商家
-    [type.SET_SHOP_DELETE_ITEMS] (state, items = []) {
+    // 设置需要批量删除的栏目
+    [type.SET_MENU_DELETE_ITEMS] (state, items = []) {
       state.items = items;
     }
   },
   actions: {
-    test ({commit}, payload) {
-      let q = new Promise((resolve, reject) => {
-        console.log(payload);
-        setTimeout(() => {
-          resolve('first');
-        }, 2000);
-      });
-
-      return q.then((res) => {
-        console.log(res);
-
-        return Promise.reject('second');
-      }).then(() => {}, (res) => {
-        console.log('接收：' + res);
-        return Promise.reject('catch');
-      })
-        .catch(() => {
-          console.log('致命错误');
-          return Promise.reject('catch');
-        });
-    },
-    // 获取商家列表
+    // 获取栏目列表
     async getListData ({state, commit}, payload) {
-      let url = configMap.shop + utils.toParams(state.query);
+      let url = configMap.menu + utils.toParams(state.query);
       commit('OPEN_SPIN', null, {root: true});
       await axios.get(url)
         .then(res => {
@@ -79,23 +55,23 @@ export default {
           if (res.data.error) {
             iView.Message.error(res.data.error.message);
           } else {
-            // 设置商家列表
-            commit(type.SET_SHOP_LIST, res.data.result.rows);
-            commit(type.SET_SHOP_TOTAL, res.data.result.total);
+            // 设置栏目列表
+            commit(type.SET_MENU_LIST, res.data.result.rows);
+            commit(type.SET_MENU_TOTAL, res.data.result.total);
           }
         }, e => {
           commit('CLOSE_SPIN', null, {root: true});
-          iView.Message.error('获取商家列表失败：' + e);
-
-          return Promise.reject();
+          iView.Message.error('获取栏目列表失败：' + e);
         });
     },
-    // 新增/更新一条商家数据
+    // 新增/更新一条栏目数据
     async createOrUpdateItem ({commit, dispatch}, payload) {
       commit('OPEN_SPIN', null, {root: true});
       let url = '';
       let msg = '';
       let q = null;
+
+      console.log(payload);
 
       // 如果id存在，表示是修改
       if (payload._id) {
@@ -104,7 +80,7 @@ export default {
         q = axios.put(url, payload);
       } else {
         // 否则，表示新增
-        url = configMap.shop + 1;
+        url = configMap.shop;
         msg = '恭喜你，新增成功';
         q = axios.post(url, payload);
       }
@@ -138,7 +114,7 @@ export default {
           axios.delete(configMap.shop + payload._id)
             .then(res => {
               commit('CLOSE_SPIN', null, {root: true});
-              commit(type.SET_SHOP_DELETE_ITEMS, []);
+              commit(type.SET_MENU_DELETE_ITEMS, []);
 
               // 如果出错了
               if (res.data.error) {
@@ -185,7 +161,7 @@ export default {
             axios.post(configMap.shopDeleteBatch, items)
               .then(res => {
                 commit('CLOSE_SPIN', null, {root: true});
-                commit(type.SET_SHOP_DELETE_ITEMS, []);
+                commit(type.SET_MENU_DELETE_ITEMS, []);
 
                 // 如果出错了
                 if (res.data.error) {

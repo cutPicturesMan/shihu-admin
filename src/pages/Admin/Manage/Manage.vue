@@ -1,6 +1,6 @@
 <template>
   <div>
-
+    manage
   </div>
 </template>
 
@@ -12,5 +12,5 @@
   };
 </script>
 
-<style   lang="scss" type="text/scss" rel="stylesheet/scss">
+<style lang="scss" type="text/scss" rel="stylesheet/scss">
 </style>

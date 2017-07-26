@@ -7,7 +7,7 @@
       <Row type="flex">
           <!-- 左侧导航 -->
           <i-col class="layout-menu-left">
-            <Menu active-name="1" theme="dark" width="auto" accordion>
+            <Menu active-name="5-1" :open-names="['5']" theme="dark" width="auto" accordion>
               <div class="layout-left-scale">
                 <i-button type="text" @click="toggleClick">
                     <Icon type="navicon" size="32"></Icon>
@@ -106,12 +106,18 @@
                   <span class="submenu-title">后台管理</span>
                 </template>
                 <Menu-item name="5-1">
+                  <router-link to="/admin/menu" class="router-link">
+                    <Icon type="network"></Icon>
+                    <span class="submenu-subtitle">目录树列表</span>
+                  </router-link>
+                </Menu-item>
+                <Menu-item name="5-2">
                   <router-link to="/admin/auth" class="router-link">
                     <Icon type="ios-list-outline"></Icon>
                     <span class="submenu-subtitle">权限列表</span>
                   </router-link>
                 </Menu-item>
-                <Menu-item name="5-2">
+                <Menu-item name="5-3">
                   <router-link to="/admin/manage" class="router-link">
                     <Icon type="ios-people"></Icon>
                     <span class="submenu-subtitle">管理员列表</span>
@@ -149,6 +155,7 @@ import Spin from '@/components/Public/Spin';
 
 export default {
   data () {
+    console.log(this.$route);
     return {
       layoutHide: false
     };

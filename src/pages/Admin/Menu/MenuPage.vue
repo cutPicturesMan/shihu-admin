@@ -19,10 +19,10 @@
       // 超时调用
       t: null
     },
-    computed: mapState('Shop', ['total']),
+    computed: mapState('Menu', ['total']),
     methods: {
-      ...mapMutations('Shop', ['UPDATE_SHOP_QUERY']),
-      ...mapActions('Shop', ['getListData']),
+      ...mapMutations('Menu', ['UPDATE_Menu_QUERY']),
+      ...mapActions('Menu', ['getListData']),
       // 改变页码
       changePage (data) {
         this.changeQuery({page: data});
@@ -36,7 +36,7 @@
         // 如果将limit设置的比较大，导致page变的比较小，会分别各触发一次changePage和changeLimit事件，导致请求2次，因此要先取消掉一次请求事件
         clearTimeout(this.t);
         this.t = setTimeout(() => {
-          this.UPDATE_SHOP_QUERY(obj);
+          this.UPDATE_Menu_QUERY(obj);
           this.getListData();
         }, 100);
       }

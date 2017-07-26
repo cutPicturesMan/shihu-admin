@@ -2,10 +2,10 @@
   <div class="pt50">
     <Modal
       :width="800"
-      :value="cuToggle"
+      :value="createOrUpdateModelToggle"
       @on-ok="submit"
       @on-cancel="close">
-      <p slot="header">新增店铺</p>
+      <p slot="header">新增权限</p>
       <transition name="fade">
         <Form ref="form" :model="form" :rules="rule" :label-width="180">
         <Form-item label="门店名称" prop="name">
@@ -95,7 +95,7 @@
         </Form-item>
         <Form-item label="店铺logo" prop="logo">
           <AppUpload
-            v-if="cuToggle"
+            v-if="createOrUpdateModelToggle"
             :imgLength="1"
             :imgList="form.logo ? [form.logo] : []"
             @upload-success="setLogoUrl"
@@ -107,7 +107,7 @@
         </Form-item>
         <Form-item label="门店图片">
           <AppUpload
-            v-if="cuToggle"
+            v-if="createOrUpdateModelToggle"
             :imgLength="8"
             :imgList="form.photo_list"
             @upload-success="setPhotoList"
@@ -194,7 +194,7 @@
   export default {
     props: {
       // 显示隐藏开关
-      cuToggle: {
+      createOrUpdateModelToggle: {
         type: Boolean,
         default: false
       }
@@ -263,7 +263,7 @@
       ...mapActions('Shop', ['createOrUpdateItem']),
       // 关闭弹窗
       close () {
-        this.$emit('update:cuToggle', false);
+        this.$emit('update:createOrUpdateModelToggle', false);
       },
       // 检查简介文字
       checkDescLength () {
@@ -336,6 +336,8 @@
         } else {
           this.form = form;
         }
+        console.log(this.form);
+        console.log(_.cloneDeep(newValue));
       }
     },
     components: {
@@ -350,6 +352,6 @@
 </script>
 
 <style rel="stylesheet/scss" lang="scss" type="text/scss">
-  @import '../../assets/scss/components/_upload.scss';
+  @import '../../../assets/scss/components/_upload';
 
 </style>

@@ -18,9 +18,16 @@ import Analyze from '@/pages/Analyze/Analyze';
 import AnalyzePlatform from '@/pages/Analyze/AnalyzePlatform';
 import AnalyzeShop from '@/pages/Analyze/AnalyzeShop';
 
+// 后台管理
+import Admin from '@/pages/Admin/Admin';
+import Menu from '@/pages/Admin/Menu/Menu';
+import Auth from '@/pages/Admin/Auth/Auth';
+import Manage from '@/pages/Admin/Manage/Manage';
+
 Vue.use(Router);
 
 export default new Router({
+  base: '/shop/list/',
   routes: [
     // 首页
     {
@@ -106,6 +113,35 @@ export default new Router({
             breadcrumb: '商家分析'
           },
           component: AnalyzeShop
+        }
+      ]
+    },
+    // 后台管理页
+    {
+      path: '/admin',
+      meta: {
+        breadcrumb: '后台管理'
+      },
+      component: Admin,
+      children: [
+        {
+          path: 'menu',
+          meta: {
+            breadcrumb: '目录树列表'
+          },
+          component: Menu
+        }, {
+          path: 'auth',
+          meta: {
+            breadcrumb: '权限管理'
+          },
+          component: Auth
+        }, {
+          path: 'manage',
+          meta: {
+            breadcrumb: '管理员管理'
+          },
+          component: Manage
         }
       ]
     }
