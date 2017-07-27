@@ -9,7 +9,7 @@ let configMap = {
   shopCategoryName: '/admin/shop/categoryName',
   productCategory: '/admin/product_category',
   // 栏目列表
-  menu: '/admin/menu/'
+  menu: '/admin/menu'
 };
 
 export default configMap;

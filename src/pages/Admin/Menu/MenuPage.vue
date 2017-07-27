@@ -21,7 +21,7 @@
     },
     computed: mapState('Menu', ['total']),
     methods: {
-      ...mapMutations('Menu', ['UPDATE_Menu_QUERY']),
+      ...mapMutations('Menu', ['UPDATE_MENU_QUERY']),
       ...mapActions('Menu', ['getListData']),
       // 改变页码
       changePage (data) {
@@ -36,7 +36,7 @@
         // 如果将limit设置的比较大，导致page变的比较小，会分别各触发一次changePage和changeLimit事件，导致请求2次，因此要先取消掉一次请求事件
         clearTimeout(this.t);
         this.t = setTimeout(() => {
-          this.UPDATE_Menu_QUERY(obj);
+          this.UPDATE_MENU_QUERY(obj);
           this.getListData();
         }, 100);
       }

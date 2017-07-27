@@ -30,6 +30,7 @@
     left: 50%;
     margin-top: - $base/2;
     margin-left: - $base/2;
+    z-index: 10000;
     .ivu-spin{
       color:#fff;
       background-color: rgba(0, 0, 0, .7);

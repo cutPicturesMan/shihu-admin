@@ -15,6 +15,10 @@
            @on-selection-change="select"></Table>
     <!--分页-->
     <MenuPage></MenuPage>
+
+    <!--新增/修改商家-->
+    <MenuCreateOrUpdate
+      :cuToggle.sync="cuToggle"></MenuCreateOrUpdate>
   </div>
 </template>
 
@@ -26,6 +30,8 @@
   export default {
     data () {
       return {
+        // 是否显示新增或者修改弹窗
+        cuToggle: false,
         listColumns: [
           {
             type: 'selection',
@@ -38,7 +44,7 @@
           },
           {
             title: '栏目名称',
-            key: 'title',
+            key: 'name',
             render: (h, params) => {
               // 如果是第一级栏目，则显示文件夹图标
               if (params.row.parent_id === 0) {
@@ -52,24 +58,37 @@
                     style: {
                       marginLeft: '10px'
                     }
-                  }, params.row.title)]);
+                  }, params.row.name)]);
               } else {
+                let indent = (params.row.id_path.split(',').length - 1) * 20;
                 return h('span', {
                   style: {
-                    marginLeft: '20px'
+                    marginLeft: indent + 'px'
                   }
-                }, '└─' + params.row.title);
+                }, '└─' + params.row.name);
               }
             }
           },
           {
+            title: '前端路由',
+            key: 'url'
+          },
+          {
             title: '是否显示',
-            key: 'state'
+            key: 'state',
+            width: 100,
+            align: 'center',
+            render: (h, params) => {
+              if (params.row.state) {
+                return '是';
+              } else {
+                return '否';
+              }
+            }
           },
           {
             title: '操作',
             key: 'action',
-            width: 150,
             align: 'center',
             render: (h, params) => {
               return h('div', [
@@ -106,7 +125,7 @@
     },
     computed: mapState('Menu', ['items', 'list']),
     methods: {
-      ...mapMutations('Menu', ['SET_SHOP_UPDATE_ITEM', 'SET_SHOP_DELETE_ITEMS']),
+      ...mapMutations('Menu', ['SET_MENU_UPDATE_ITEM', 'SET_MENU_DELETE_ITEMS']),
       ...mapActions('Menu', ['test',
         'getListData',
         'createOrUpdateItem',
@@ -114,12 +133,12 @@
         'deleteItems'
       ]),
       create () {
-        this.SET_SHOP_UPDATE_ITEM({});
-        this.createOrUpdateModelToggle = true;
+        this.SET_MENU_UPDATE_ITEM({});
+        this.cuToggle = true;
       },
       // 表格选择
       select (selection) {
-        this.SET_SHOP_DELETE_ITEMS(selection);
+        this.SET_MENU_DELETE_ITEMS(selection);
       }
     },
     components: {

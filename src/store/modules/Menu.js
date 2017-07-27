@@ -75,12 +75,12 @@ export default {
 
       // 如果id存在，表示是修改
       if (payload._id) {
-        url = `${configMap.shop}/${payload._id}`;
+        url = `${configMap.menu}/${payload._id}`;
         msg = '恭喜你，修改成功';
         q = axios.put(url, payload);
       } else {
         // 否则，表示新增
-        url = configMap.shop;
+        url = configMap.menu;
         msg = '恭喜你，新增成功';
         q = axios.post(url, payload);
       }
@@ -106,12 +106,12 @@ export default {
     // 删除单个
     deleteItem ({state, commit, dispatch}, payload) {
       iView.Modal.confirm({
-        title: '删除店铺',
-        content: `将要删除店铺为：<strong class="text-error">${payload.name}</strong>，该操作不可逆，请慎重选择`,
+        title: '删除栏目',
+        content: `将要删除栏目为：<strong class="text-error">${payload.name}</strong>，该操作不可逆，请慎重选择`,
         onOk: () => {
           commit('OPEN_SPIN', null, {root: true});
 
-          axios.delete(configMap.shop + payload._id)
+          axios.delete(configMap.menu + payload._id)
             .then(res => {
               commit('CLOSE_SPIN', null, {root: true});
               commit(type.SET_MENU_DELETE_ITEMS, []);
@@ -136,17 +136,17 @@ export default {
     deleteItems ({state, commit, dispatch}, payload) {
       // 如果长度为0
       if (state.items.length === 0) {
-        iView.Message.error('请至少选择一个要删除的店铺');
+        iView.Message.error('请至少选择一个要删除的栏目');
       } else {
         let content = '';
-        let shops = '';
+        let menus = '';
         state.items.forEach((item) => {
-          shops += `<strong class="text-error">${item.name}</strong>、`;
+          menus += `<strong class="text-error">${item.name}</strong>、`;
         });
-        content = `将要删除店铺为：${shops.slice(0, -1)}，该操作不可逆，请慎重选择`;
+        content = `将要删除栏目为：${menus.slice(0, -1)}，该操作不可逆，请慎重选择`;
 
         iView.Modal.confirm({
-          title: '删除店铺',
+          title: '删除栏目',
           content: content,
           onOk: () => {
             commit('OPEN_SPIN', null, {root: true});
@@ -158,7 +158,7 @@ export default {
               items.push(item._id);
             });
 
-            axios.post(configMap.shopDeleteBatch, items)
+            axios.post(configMap.menuDeleteBatch, items)
               .then(res => {
                 commit('CLOSE_SPIN', null, {root: true});
                 commit(type.SET_MENU_DELETE_ITEMS, []);

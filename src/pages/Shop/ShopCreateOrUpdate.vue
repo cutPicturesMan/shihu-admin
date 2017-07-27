@@ -169,7 +169,7 @@
     phone_list: [{
       phone: '15960210046'
     }],
-    // 店铺整体营业状态，0店铺关闭，1店铺营业中
+    // 店铺整体营业状态，false店铺关闭，true店铺营业中
     is_open: true,
     // 是否品牌馆店铺
     is_premium: true,

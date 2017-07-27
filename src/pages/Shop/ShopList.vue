@@ -33,7 +33,6 @@
   export default {
     data () {
       return {
-        // 删除
         // 是否显示新增或者修改弹窗
         cuToggle: false,
         listColumns: [
@@ -133,7 +132,7 @@
     computed: mapState('Shop', ['items', 'list']),
     methods: {
       ...mapMutations('Shop', ['SET_SHOP_UPDATE_ITEM', 'SET_SHOP_DELETE_ITEMS']),
-      ...mapActions('Shop', ['test',
+      ...mapActions('Shop', [
         'getListData',
         'createOrUpdateItem',
         'deleteItem',
