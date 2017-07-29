@@ -21,3 +21,5 @@ export const SET_MENU_UPDATE_ITEM = 'SET_MENU_UPDATE_ITEM';  // 设置需要批�
 export const SET_MENU_DELETE_ITEMS = 'SET_MENU_DELETE_ITEMS';  // 设置需要批量删除的栏目
 export const SET_MENU_TOTAL = 'SET_MENU_TOTAL';  // 设置栏目总数
 export const UPDATE_MENU_QUERY = 'UPDATE_MENU_QUERY';  // 修改查询信息
+export const UPDATE_MENU_ORDER = 'UPDATE_MENU_ORDER';  // 修改栏目排列顺序
+

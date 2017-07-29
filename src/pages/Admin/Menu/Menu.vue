@@ -80,21 +80,30 @@
             align: 'center',
             render: (h, params) => {
               if (params.row.state) {
-                return '是';
+                return h('Icon', {
+                  props: {
+                    type: 'checkmark'
+                  }
+                });
               } else {
-                return '否';
+                return h('Icon', {
+                  props: {
+                    type: 'close'
+                  }
+                });
               }
             }
           },
           {
             title: '操作',
             key: 'action',
+            width: 300,
             align: 'center',
             render: (h, params) => {
               return h('div', [
                 h('Button', {
                   props: {
-                    type: 'primary',
+                    type: 'ghost',
                     size: 'small'
                   },
                   style: {
@@ -102,21 +111,57 @@
                   },
                   on: {
                     click: () => {
-                      console.log('上移');
+                      this.moveItem({
+                        _id: params.row._id,
+                        parent_id: params.row.parent_id,
+                        direction: -1
+                      });
                     }
                   }
                 }, '上移'),
                 h('Button', {
                   props: {
-                    type: 'error',
+                    type: 'ghost',
+                    size: 'small'
+                  },
+                  style: {
+                    marginRight: '5px'
+                  },
+                  on: {
+                    click: () => {
+                      this.moveItem({
+                        _id: params.row._id,
+                        parent_id: params.row.parent_id,
+                        direction: 1
+                      });
+                    }
+                  }
+                }, '下移'),
+                h('Button', {
+                  props: {
+                    type: 'ghost',
+                    size: 'small'
+                  },
+                  style: {
+                    marginRight: '5px'
+                  },
+                  on: {
+                    click: () => {
+                      console.log('添加子栏目');
+                    }
+                  }
+                }, '添加子栏目'),
+                h('Button', {
+                  props: {
+                    type: 'ghost',
                     size: 'small'
                   },
                   on: {
                     click: () => {
-                      console.log('下移');
+                      console.log('编辑');
                     }
                   }
-                }, '下移')
+                }, '编辑')
               ]);
             }
           }
@@ -129,6 +174,7 @@
       ...mapActions('Menu', ['test',
         'getListData',
         'createOrUpdateItem',
+        'moveItem',
         'deleteItem',
         'deleteItems'
       ]),

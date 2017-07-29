@@ -103,6 +103,27 @@ export default {
         return Promise.reject();
       });
     },
+    // 栏目排序，默认下移
+    // direction: -1上移，direction: 1下移
+    async moveItem ({commit, dispatch}, payload) {
+      await axios.put(configMap.menuMoveItem, payload)
+        .then(res => {
+          commit('CLOSE_SPIN', null, {root: true});
+          // 如果更新排序出错
+          if (res.data.error) {
+            iView.Message.error(res.data.error.message);
+          } else {
+            iView.Message.success('修改排序成功');
+            // 刷新数据
+            dispatch('getListData');
+          }
+        }, e => {
+          commit('CLOSE_SPIN', null, {root: true});
+          iView.Message.error('操作失败：' + e);
+          // 返回一个reject的promise
+          return Promise.reject();
+        });
+    },
     // 删除单个
     deleteItem ({state, commit, dispatch}, payload) {
       iView.Modal.confirm({
