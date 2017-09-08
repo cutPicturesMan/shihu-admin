@@ -1,15 +1,15 @@
 <template>
   <div id="app">
     <header class="app-header">
-      头部 用户名 注册 | 登录
+      <div class="mr20">注册 | 登录</div>
     </header>
     <div class="layout" :class="{'layout-hide-text': layoutHide}">
       <Row type="flex">
           <!-- 左侧导航 -->
           <i-col class="layout-menu-left">
             <Menu active-name="5-1" :open-names="['5']" theme="dark" width="auto" accordion>
-              <div class="layout-left-scale">
-                <i-button type="text" @click="toggleClick">
+              <div class="layout-left-scale" @click="toggleClick">
+                <i-button type="text">
                     <Icon type="navicon" size="32"></Icon>
                 </i-button>
               </div>
@@ -192,6 +192,7 @@ $sidebar-width: 200px;
   color:#fff;
   display: flex;
   align-items: center;
+  justify-content: flex-end;
 
   position:fixed;
   top:0;
@@ -247,6 +248,9 @@ $sidebar-width: 200px;
   display: flex;
   justify-content: center;
   align-items: center;
+  i{
+    color:#fff;
+  }
 }
 .layout-ceiling-main a{
   color: #9ba7b5;

@@ -4,7 +4,7 @@
       <Button-group class="pb15">
         <Button type="text" shape="circle" icon="plus-round" @click="create">新增</Button>
         <Button type="text" shape="circle" icon="edit">修改</Button>
-        <Button type="text" shape="circle" icon="android-delete" @click="deleteItems">批量删除</Button>
+        <Button type="text" shape="circle" icon="android-delete" @click="deleteBatch">批量删除</Button>
         <Button type="text" shape="circle" icon="android-refresh" @click="getListData">刷新</Button>
       </Button-group>
     </div>
@@ -97,7 +97,7 @@
           {
             title: '操作',
             key: 'action',
-            width: 300,
+            width: 260,
             align: 'center',
             render: (h, params) => {
               return h('div', [
@@ -111,7 +111,7 @@
                   },
                   on: {
                     click: () => {
-                      this.moveItem({
+                      this.exchangeMenu({
                         _id: params.row._id,
                         parent_id: params.row.parent_id,
                         direction: -1
@@ -129,7 +129,7 @@
                   },
                   on: {
                     click: () => {
-                      this.moveItem({
+                      this.exchangeMenu({
                         _id: params.row._id,
                         parent_id: params.row.parent_id,
                         direction: 1
@@ -174,9 +174,8 @@
       ...mapActions('Menu', ['test',
         'getListData',
         'createOrUpdateItem',
-        'moveItem',
-        'deleteItem',
-        'deleteItems'
+        'exchangeMenu',
+        'deleteBatch'
       ]),
       create () {
         this.SET_MENU_UPDATE_ITEM({});

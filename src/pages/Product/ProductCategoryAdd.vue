@@ -24,7 +24,7 @@
 
 <script type="text/ecmascript-6">
 //  import axios from 'axios';
-//  import configMap from '@/assets/js/config.js';
+//  import configMap from '@/assets/js/api.js';
 
   export default {
     data () {

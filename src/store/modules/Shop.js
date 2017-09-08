@@ -1,7 +1,7 @@
 import iView from 'iview';
 import axios from 'axios';
 import utils from '@/assets/js/utils.js';
-import configMap from '@/assets/js/config.js';
+import api from '@/assets/js/api.js';
 import * as type from '../mutation-types';
 
 export default {
@@ -70,7 +70,7 @@ export default {
     },
     // 获取商家列表
     async getListData ({state, commit}, payload) {
-      let url = configMap.shop + utils.toParams(state.query);
+      let url = api.shop + utils.toParams(state.query);
       commit('OPEN_SPIN', null, {root: true});
       await axios.get(url)
         .then(res => {
@@ -99,12 +99,12 @@ export default {
 
       // 如果id存在，表示是修改
       if (payload._id) {
-        url = `${configMap.shop}/${payload._id}`;
+        url = `${api.shop}/${payload._id}`;
         msg = '恭喜你，修改成功';
         q = axios.put(url, payload);
       } else {
         // 否则，表示新增
-        url = configMap.shop + 1;
+        url = api.shop + 1;
         msg = '恭喜你，新增成功';
         q = axios.post(url, payload);
       }
@@ -135,7 +135,7 @@ export default {
         onOk: () => {
           commit('OPEN_SPIN', null, {root: true});
 
-          axios.delete(configMap.shop + payload._id)
+          axios.delete(api.shop + payload._id)
             .then(res => {
               commit('CLOSE_SPIN', null, {root: true});
               commit(type.SET_SHOP_DELETE_ITEMS, []);
@@ -182,7 +182,7 @@ export default {
               items.push(item._id);
             });
 
-            axios.post(configMap.shopDeleteBatch, items)
+            axios.post(api.shopDeleteBatch, items)
               .then(res => {
                 commit('CLOSE_SPIN', null, {root: true});
                 commit(type.SET_SHOP_DELETE_ITEMS, []);

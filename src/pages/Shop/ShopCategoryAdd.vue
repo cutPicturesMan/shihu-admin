@@ -1,8 +1,8 @@
 <template>
-    <div>
+  <div>
     <Form ref="form" :model="form" :rules="rule" :label-width="80">
       <Form-item label="商家分类" prop="name">
-          <Input v-model="form.name" placeholder="请输入商家分类"></Input>
+        <Input v-model="form.name" placeholder="请输入商家分类"></Input>
       </Form-item>
       <Form-item>
         <Button type="primary" @click="submit">提交</Button>
@@ -13,7 +13,7 @@
 
 <script type="text/ecmascript-6">
   import axios from 'axios';
-  import configMap from '@/assets/js/config.js';
+  import configMap from '@/assets/js/api.js';
 
   export default {
     data () {

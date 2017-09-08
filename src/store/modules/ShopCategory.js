@@ -1,6 +1,6 @@
 import iView from 'iview';
 import axios from 'axios';
-import configMap from '@/assets/js/config.js';
+import api from '@/assets/js/api.js';
 import * as type from '../mutation-types';
 
 export default {
@@ -30,7 +30,7 @@ export default {
     // 获取商家分类列表
     getListData ({commit}) {
       commit('OPEN_SPIN', null, {root: true});
-      axios.get(configMap.shopCategory)
+      axios.get(api.shopCategory)
         .then((res) => {
           commit('CLOSE_SPIN', null, {root: true});
           // 设置商家分类列表
@@ -49,13 +49,13 @@ export default {
 
       // 如果id存在，表示是修改
       if (payload._id) {
-        url = `${configMap.shopCategory}/${payload._id}`;
+        url = `${api.shopCategory}/${payload._id}`;
         q = axios.put(url, {
           name: payload.name
         });
       } else {
         // 否则，表示新增
-        url = configMap.shopCategory;
+        url = api.shopCategory;
         q = axios.post(url, {
           name: payload.name
         });
@@ -85,7 +85,7 @@ export default {
     deleteItem ({commit}, payload) {
       commit('OPEN_SPIN', null, {root: true});
       // 删除分类
-      let url = configMap.shopCategory + '/' + payload.id;
+      let url = api.shopCategory + '/' + payload.id;
 
       axios.delete(url)
         .then((res) => {

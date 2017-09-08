@@ -1,7 +1,7 @@
 import iView from 'iview';
 import axios from 'axios';
 import utils from '@/assets/js/utils.js';
-import configMap from '@/assets/js/config.js';
+import api from '@/assets/js/api.js';
 import * as type from '../mutation-types';
 
 export default {
@@ -46,7 +46,7 @@ export default {
   actions: {
     // 获取栏目列表
     async getListData ({state, commit}, payload) {
-      let url = configMap.menu + utils.toParams(state.query);
+      let url = api.menu + utils.toParams(state.query);
       commit('OPEN_SPIN', null, {root: true});
       await axios.get(url)
         .then(res => {
@@ -75,12 +75,12 @@ export default {
 
       // 如果id存在，表示是修改
       if (payload._id) {
-        url = `${configMap.menu}/${payload._id}`;
+        url = `${api.menu}/${payload._id}`;
         msg = '恭喜你，修改成功';
         q = axios.put(url, payload);
       } else {
         // 否则，表示新增
-        url = configMap.menu;
+        url = api.menu;
         msg = '恭喜你，新增成功';
         q = axios.post(url, payload);
       }
@@ -105,8 +105,10 @@ export default {
     },
     // 栏目排序，默认下移
     // direction: -1上移，direction: 1下移
-    async moveItem ({commit, dispatch}, payload) {
-      await axios.put(configMap.menuMoveItem, payload)
+    async exchangeMenu ({commit, dispatch}, payload) {
+      commit('OPEN_SPIN', null, {root: true});
+
+      await axios.put(api.menu_exchange_menu, payload)
         .then(res => {
           commit('CLOSE_SPIN', null, {root: true});
           // 如果更新排序出错
@@ -132,7 +134,7 @@ export default {
         onOk: () => {
           commit('OPEN_SPIN', null, {root: true});
 
-          axios.delete(configMap.menu + payload._id)
+          axios.delete(api.menu + payload._id)
             .then(res => {
               commit('CLOSE_SPIN', null, {root: true});
               commit(type.SET_MENU_DELETE_ITEMS, []);
@@ -154,7 +156,7 @@ export default {
       });
     },
     // 批量删除
-    deleteItems ({state, commit, dispatch}, payload) {
+    deleteBatch ({state, commit, dispatch}, payload) {
       // 如果长度为0
       if (state.items.length === 0) {
         iView.Message.error('请至少选择一个要删除的栏目');
@@ -178,8 +180,7 @@ export default {
             state.items.forEach((item) => {
               items.push(item._id);
             });
-
-            axios.post(configMap.menuDeleteBatch, items)
+            axios.post(api.menu_delete_batch, items)
               .then(res => {
                 commit('CLOSE_SPIN', null, {root: true});
                 commit(type.SET_MENU_DELETE_ITEMS, []);

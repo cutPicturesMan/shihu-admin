@@ -1,6 +1,6 @@
 import iView from 'iview';
 import axios from 'axios';
-import configMap from '@/assets/js/config.js';
+import api from '@/assets/js/api.js';
 import * as type from '../mutation-types';
 
 export default {
@@ -27,7 +27,7 @@ export default {
     async getListData ({commit}, payload) {
       commit('OPEN_SPIN', null, {root: true});
 
-      await axios.get(configMap.productCategory)
+      await axios.get(api.productCategory)
         .then((res) => {
           commit('CLOSE_SPIN', null, {root: true});
           // 如果出错了
@@ -52,11 +52,11 @@ export default {
 
       // 如果id存在，表示是修改
       if (payload._id) {
-        url = `${configMap.productCategory}/${payload._id}`;
+        url = `${api.productCategory}/${payload._id}`;
         q = axios.put(url, payload);
       } else {
         // 否则，表示新增
-        url = configMap.productCategory;
+        url = api.productCategory;
         q = axios.post(url, payload);
       }
 
